@@ -1,9 +1,9 @@
 package com.spring.boot.ideaboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,19 +17,20 @@ public class IdeaBoard {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
+    @JoinColumn(name = "creator_id", nullable = false)
+    private User creator;
 
     @ManyToMany(mappedBy = "favourites")
     private List<User> likedByList = new ArrayList<>();
 
-    @NotNull
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Note> notes = new ArrayList<>();
+
     @OneToOne(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Chat chat;
 
-    @NotNull
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt = new Date();
 
@@ -41,6 +42,7 @@ public class IdeaBoard {
         return id;
     }
 
+
     public Chat getChat() {
         return chat;
     }
@@ -49,11 +51,47 @@ public class IdeaBoard {
         this.chat = chat;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setCreator(User owner) {
+        this.creator = owner;
+    }
+
+    @JsonIgnore
+    public List<User> getLikedByList() {
+        return likedByList;
+    }
+
+    public void setLikedByList(List<User> likedByList) {
+        this.likedByList = likedByList;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("IdeaBoard{");
+        sb.append("id=").append(id);
+        sb.append(", owner=").append(creator.getId());
+        sb.append(", chat=").append(chat.getId());
+        sb.append(", createdAt=").append(createdAt);
+        sb.append('}');
+        return sb.toString();
     }
 }

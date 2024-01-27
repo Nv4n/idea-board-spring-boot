@@ -19,23 +19,15 @@ public class User {
     private UUID id;
 
     @Column(unique = true, nullable = false, length = 64)
-    @NotBlank(message = "Username is required")
-    @Size(min = 4, max = 32, message = "Username must be between 4 and 32 characters")
-    @Pattern(regexp = "[A-Za-z][A-Za-z0-9]+", message = "Username can contain only letters or digits")
     private String username;
 
     @Column(nullable = false, length = 64)
-    @Size(min = 8, max = 32)
-    @NotBlank(message = "Password is required")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)(?!.* ).{8,32}$")
-    @JsonIgnore
     private String password;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<IdeaBoard> ideaBoards = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -45,10 +37,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "board_id")})
     private List<IdeaBoard> favourites = new ArrayList<>();
 
-    @JsonIgnore
-    public List<Message> getMessages() {
-        return messages;
-    }
+    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Note> notes = new ArrayList<>();
+
 
     public void setId(UUID id) {
         this.id = id;
@@ -77,6 +68,38 @@ public class User {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    @JsonIgnore
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    @JsonIgnore
+    public List<IdeaBoard> getIdeaBoards() {
+        return ideaBoards;
+    }
+
+    public void setIdeaBoards(List<IdeaBoard> ideaBoards) {
+        this.ideaBoards = ideaBoards;
+    }
+
+    @JsonIgnore
+    public List<IdeaBoard> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(List<IdeaBoard> favourites) {
+        this.favourites = favourites;
+    }
+
+    @JsonIgnore
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     @Override
