@@ -1,8 +1,6 @@
-package com.spring.boot.ideaboard.model;
+package com.ideaboard.model;
 
 import jakarta.persistence.*;
-import proto.greet.Greet;
-import proto.greet.GreetResponse;
 
 import java.util.ArrayList;
 import java.util.List;

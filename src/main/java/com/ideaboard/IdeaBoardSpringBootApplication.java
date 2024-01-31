@@ -1,16 +1,15 @@
-package com.spring.boot.ideaboard;
+package com.ideaboard;
 
+import com.grpc.server.ServerImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import proto.greet.Greet;
-import proto.greet.GreetRequest;
-import proto.greet.GreetResponse;
 
 @SpringBootApplication
 public class IdeaBoardSpringBootApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(IdeaBoardSpringBootApplication.class, args);
+        ServerImpl.main(args);
     }
 
 }
