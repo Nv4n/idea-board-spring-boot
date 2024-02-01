@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { LoginForm } from "./components/LoginForm";
 import { GreetRequest, Greeting } from "./grpc/greet";
 import { GreetServiceClient } from "./grpc/greet.client";
-import { TwirpFetchTransport } from "@protobuf-ts/twirp-transport";
+import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 function App() {
 	let greeting: Greeting = {
 		firstName: "Slimen",
@@ -12,8 +12,8 @@ function App() {
 	const request: GreetRequest = {
 		greeting: greeting,
 	};
-	const transport = new TwirpFetchTransport({
-		baseUrl: "http://localhost:8080",
+	const transport = new GrpcWebFetchTransport({
+		baseUrl: "http://localhost:8000	",
 	});
 
 	const client = new GreetServiceClient(transport);
@@ -21,7 +21,7 @@ function App() {
 	useEffect(() => {
 		const greet = async () => {
 			const { response } = await client.greet(request);
-			console.log(`Got RPC msg: ${response}`);
+			console.log(`Got RPC msg: ${response.result}`);
 		};
 		void greet();
 	}, []);
