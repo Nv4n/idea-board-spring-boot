@@ -1,11 +1,13 @@
 package com.grpc.service;
 
 import io.grpc.stub.StreamObserver;
+import org.lognet.springboot.grpc.GRpcService;
 import proto.greet.GreetRequest;
 import proto.greet.GreetResponse;
 import proto.greet.GreetServiceGrpc;
 import proto.greet.Greeting;
 
+@GRpcService
 public class GreetServiceImpl extends GreetServiceGrpc.GreetServiceImplBase {
 
     @Override

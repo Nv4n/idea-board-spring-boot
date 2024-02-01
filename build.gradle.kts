@@ -43,10 +43,6 @@ protobuf {
     generateProtoTasks {
         all().forEach {
             it.plugins {
-                // Apply the "grpc" plugin whose spec is defined above, without
-                // options. Note the braces cannot be omitted, otherwise the
-                // plugin will not be added. This is because of the implicit way
-                // NamedDomainObjectContainer binds the methods.
                 id("grpc") {
                 }
             }
@@ -65,11 +61,11 @@ sourceSets {
 
 dependencies {
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")
-    implementation("io.grpc:grpc-protobuf:1.61.0")
     implementation("com.google.protobuf:protobuf-java:3.25.2")
+    implementation("io.grpc:grpc-protobuf:1.61.0")
     implementation("io.grpc:protoc-gen-grpc-java:1.61.0")
-    implementation("io.grpc:grpc-netty-shaded:1.61.0")
     implementation("io.grpc:grpc-stub:1.61.0")
+    implementation("io.github.lognet:grpc-spring-boot-starter:5.1.5")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
