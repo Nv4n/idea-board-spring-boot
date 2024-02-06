@@ -60,6 +60,7 @@ sourceSets {
 }
 
 dependencies {
+    implementation("com.nimbusds:nimbus-jose-jwt:9.37.3")
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")
     implementation("com.google.protobuf:protobuf-java:3.25.2")
     implementation("io.grpc:grpc-protobuf:1.61.0")
