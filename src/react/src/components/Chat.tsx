@@ -6,11 +6,13 @@ import {
 	FormLabel,
 	FormControl,
 	FormMessage,
+	Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Badge } from "@/components/ui/badge";
 
 const formSchema = z.object({
 	msg: z
@@ -37,32 +39,43 @@ export const Chat = () => {
 	};
 	return (
 		<>
+			<div>
+				<Badge variant="outline">Date</Badge>
+			</div>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)}>
-					<FormField
-						control={form.control}
-						name="msg"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel className="sr-only">
-									Chat message
-								</FormLabel>
-								<FormControl>
-									<Input
-										minLength={1}
-										maxLength={256}
-										placeholder="send something"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<Button variant="outline" type="submit">
-						<span className="sr-only">Send</span>
-						<ChevronRightIcon></ChevronRightIcon>
-					</Button>
+				<form
+					onSubmit={form.handleSubmit(onSubmit)}
+					className="max-w-xs space-y-6"
+				>
+					<div className="relative">
+						<FormField
+							control={form.control}
+							name="msg"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel className="sr-only ">
+										Chat message
+									</FormLabel>
+									<FormControl>
+										<Input
+											className="pr-14"
+											placeholder="send something"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<Button
+							variant="outline"
+							type="submit"
+							className="absolute right-0 top-0"
+						>
+							<span className="sr-only">Send</span>
+							<ChevronRightIcon></ChevronRightIcon>
+						</Button>
+					</div>
 				</form>
 			</Form>
 		</>

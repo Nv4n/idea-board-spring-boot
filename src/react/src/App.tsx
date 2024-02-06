@@ -10,7 +10,7 @@ function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<Chat></Chat>
-			<LoginForm></LoginForm>
+			{/* <LoginForm></LoginForm> */}
 		</QueryClientProvider>
 	);
 }
