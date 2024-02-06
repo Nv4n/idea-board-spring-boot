@@ -7,6 +7,7 @@ module.exports = {
 		{
 			extends: [
 				"plugin:@typescript-eslint/recommended-requiring-type-checking",
+				"plugin:@tanstack/eslint-plugin-query/recommended"
 			],
 			files: ["*.ts", "*.tsx"],
 			parserOptions: {
@@ -26,8 +27,11 @@ module.exports = {
 	parserOptions: {
 		project: path.join(__dirname, "tsconfig.json"),
 	},
-	plugins: ["@typescript-eslint,react-refresh"],
+	plugins: ["@typescript-eslint"],
 	rules: {
+		"@tanstack/query/exhaustive-deps": "error",
+    	"@tanstack/query/no-rest-destructuring": "warn",
+    	"@tanstack/query/stable-query-client": "error", 
 		"@typescript-eslint/consistent-type-imports": [
 			"warn",
 			{
@@ -49,9 +53,5 @@ module.exports = {
 			},
 		],
 		"no-console": "warn",
-		"react-refresh/only-export-components": [
-			"warn",
-			{ allowConstantExport: true },
-		],
 	},
 };

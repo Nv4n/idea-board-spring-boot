@@ -1,8 +1,8 @@
-import { WorkerData, WorkerResult } from "./types";
+import { type WorkerData, type WorkerResult } from "./types";
 
 let jwt: string | null = null;
 
-self.onmessage = async (e: MessageEvent<WorkerData>) => {
+self.onmessage =  (e: MessageEvent<WorkerData>) => {
 	let result: WorkerResult;
 	if (e.data.command === "SetToken") {
 		result = { hasToken: false, msg: "Set token succesfull" };
@@ -13,5 +13,4 @@ self.onmessage = async (e: MessageEvent<WorkerData>) => {
 		result = { hasToken: true, token: jwt, handle: e.data.handle };
 		postMessage(result);
 	}
-	console.log("Worker got message", e.data);
 };

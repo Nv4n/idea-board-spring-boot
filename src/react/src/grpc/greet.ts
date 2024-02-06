@@ -59,9 +59,9 @@ class Greeting$Type extends MessageType<Greeting> {
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Greeting): Greeting {
-        let message = target ?? this.create(), end = reader.pos + length;
+        const message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
+            const [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
                 case /* string first_name */ 1:
                     message.firstName = reader.string();
@@ -70,10 +70,10 @@ class Greeting$Type extends MessageType<Greeting> {
                     message.lastName = reader.string();
                     break;
                 default:
-                    let u = options.readUnknownField;
+                    const u = options.readUnknownField;
                     if (u === "throw")
                         throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
+                    const d = reader.skip(wireType);
                     if (u !== false)
                         (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
             }
@@ -87,7 +87,7 @@ class Greeting$Type extends MessageType<Greeting> {
         /* string last_name = 2; */
         if (message.lastName !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.lastName);
-        let u = options.writeUnknownFields;
+        const u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
         return writer;
@@ -111,18 +111,18 @@ class GreetRequest$Type extends MessageType<GreetRequest> {
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GreetRequest): GreetRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
+        const message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
+            const [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
                 case /* proto.greet.Greeting greeting */ 1:
                     message.greeting = Greeting.internalBinaryRead(reader, reader.uint32(), options, message.greeting);
                     break;
                 default:
-                    let u = options.readUnknownField;
+                    const u = options.readUnknownField;
                     if (u === "throw")
                         throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
+                    const d = reader.skip(wireType);
                     if (u !== false)
                         (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
             }
@@ -133,7 +133,7 @@ class GreetRequest$Type extends MessageType<GreetRequest> {
         /* proto.greet.Greeting greeting = 1; */
         if (message.greeting)
             Greeting.internalBinaryWrite(message.greeting, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        let u = options.writeUnknownFields;
+        const u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
         return writer;
@@ -158,18 +158,18 @@ class GreetResponse$Type extends MessageType<GreetResponse> {
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GreetResponse): GreetResponse {
-        let message = target ?? this.create(), end = reader.pos + length;
+        const message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
+            const [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
                 case /* string result */ 1:
                     message.result = reader.string();
                     break;
                 default:
-                    let u = options.readUnknownField;
+                    const u = options.readUnknownField;
                     if (u === "throw")
                         throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
+                    const d = reader.skip(wireType);
                     if (u !== false)
                         (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
             }
@@ -180,7 +180,7 @@ class GreetResponse$Type extends MessageType<GreetResponse> {
         /* string result = 1; */
         if (message.result !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.result);
-        let u = options.writeUnknownFields;
+        const u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
         return writer;

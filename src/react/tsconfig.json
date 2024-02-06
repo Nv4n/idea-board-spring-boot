@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -32,8 +32,8 @@
     "paths": {
       "@/*": [
         "@/*"
-      ],
-    },
+      ]
+    }
   },
   "include": [
     ".eslintrc.cjs",
@@ -46,7 +46,8 @@
     "tailwind.config.js"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/node_modules/*"
   ],
   "references": [
     {
