@@ -7,11 +7,12 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 
-@Service
+@Component
 public class JwtValidator {
     public void SignJWT() throws JOSEException {
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
