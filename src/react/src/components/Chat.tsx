@@ -31,7 +31,7 @@ const formSchema = z.object({
 
 export const Chat = () => {
 	const [socket, setSocket] = useState<Socket | null>(null);
-	const [room,_setRoom] = useState<string>("124");
+	const [room, _setRoom] = useState<string>("124");
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -66,7 +66,7 @@ export const Chat = () => {
 		socket.on("connect", function () {
 			console.log(`Connected with ID: ${socket.id}`);
 		});
-		socket.on("chat:get_message", function (data) {
+		socket.on("get_message", function (data) {
 			console.log("Received message", data);
 		});
 		socket.on("disconnect", function () {
