@@ -60,6 +60,7 @@ sourceSets {
 }
 
 dependencies {
+    implementation("com.corundumstudio.socketio:netty-socketio:2.0.8")
     implementation("com.nimbusds:nimbus-jose-jwt:9.37.3")
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")
     implementation("com.google.protobuf:protobuf-java:3.25.2")
@@ -72,7 +73,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     compileOnly("org.projectlombok:lombok")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

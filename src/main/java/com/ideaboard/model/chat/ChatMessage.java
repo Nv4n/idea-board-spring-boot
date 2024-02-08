@@ -1,40 +1,20 @@
 package com.ideaboard.model.chat;
 
-public class ChatMessage {
 
-    private String userName;
+import lombok.Data;
+
+@Data
+public class ChatMessage {
+    private ChatMessageType type;
     private String message;
+    private String room;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String userName, String message) {
-        super();
-        this.userName = userName;
+    public ChatMessage(ChatMessageType type, String message) {
+        this.type = type;
         this.message = message;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return "ChatMessage{" +
-                "userName='" + userName + '\'' +
-                ", message='" + message + '\'' +
-                '}';
     }
 }
+
