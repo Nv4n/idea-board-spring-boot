@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSocketIo } from "../hooks/useSocketIo";
 import { z } from "zod";
+import { useQuery } from "@tanstack/react-query";
 
 const formSchema = z.object({
 	msg: z
@@ -31,6 +32,14 @@ const formSchema = z.object({
 
 export const Chat = () => {
 	const [room, _setRoom] = useState<string>("124");
+	const {
+		data: _messages,
+		isLoading: _loading,
+		isError: _error,
+	} = useQuery({
+		queryKey: ["chat", room],
+		queryFn: () => "",
+	});
 	const socket = useSocketIo(room);
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
