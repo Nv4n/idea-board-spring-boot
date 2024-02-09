@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -10,15 +9,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 import { ChevronRightIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { useEffect, useState } from "react";
+import { queryOptions, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSocketIo } from "../hooks/useSocketIo";
+import { type MessageRequest, type MessageResponse } from "src/grpc/chat";
 import { z } from "zod";
-import { useQuery } from "@tanstack/react-query";
+import { MessageServiceClient } from "../grpc/chat.client";
+import { useSocketIo } from "../hooks/useSocketIo";
+import { ChatMessage } from "./ChatMessage";
+import { LoadinSkeleton } from "./LoadingSkeleton";
 
-const formSchema = z.object({
+const ChatMessageSchema = z.object({
 	msg: z
 		.string()
 		.trim()
@@ -29,66 +33,100 @@ const formSchema = z.object({
 			message: "Message can't be longer than 256 symbols",
 		}),
 });
+interface ChatProps {
+	chatRoom: string;
+}
 
-export const Chat = () => {
-	const [room, _setRoom] = useState<string>("124");
-	const {
-		data: _messages,
-		isLoading: _loading,
-		isError: _error,
-	} = useQuery({
-		queryKey: ["chat", room],
-		queryFn: () => "",
+async function getAllChatMessages(room: string): Promise<MessageResponse> {
+	const msgRequest: MessageRequest = {
+		chatRoom: room,
+		requestedChunkSize: 25,
+	};
+	const transport = new GrpcWebFetchTransport({
+		baseUrl: "http://localhost:8000",
 	});
-	const socket = useSocketIo(room);
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+
+	const client = new MessageServiceClient(transport);
+	const { response } = await client.getAllMessages(msgRequest);
+	return response;
+}
+
+const chatQueryOptions = (room: string) => {
+	return queryOptions({
+		queryKey: ["users", { room }],
+		queryFn: () => getAllChatMessages(room),
+		staleTime: Infinity,
+	});
+};
+
+export const Chat = ({ chatRoom = "123" }: ChatProps) => {
+	const client = useQueryClient();
+	const {
+		data: grpcResponse,
+		isLoading,
+		isError,
+	} = useQuery(chatQueryOptions(chatRoom));
+
+	if (isError) {
+		throw new Error("Can't load any messages");
+	}
+
+	const socket = useSocketIo(chatRoom);
+	const form = useForm<z.infer<typeof ChatMessageSchema>>({
+		resolver: zodResolver(ChatMessageSchema),
 		defaultValues: {
 			msg: "",
 		},
 	});
 
 	useEffect(() => {
-		if (!socket) {
+		if (!socket || isLoading) {
 			return;
 		}
 		socket.on("get_message", function (data) {
 			console.log("Received message", data);
+			void client.invalidateQueries({
+				queryKey: ["users", { chatRoom }],
+			});
 		});
 
 		socket.connect();
-	}, [socket]);
+	}, [client, isLoading, chatRoom, socket]);
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		console.log(values);
+	if (isLoading) {
+		return <LoadinSkeleton></LoadinSkeleton>;
+	}
+
+	const onSubmit = (values: z.infer<typeof ChatMessageSchema>) => {
+		if (!socket) {
+			return;
+		}
 		const jsonObject = {
 			type: "CLIENT",
 			message: values.msg,
-			room: room,
+			room: chatRoom,
 		};
-		!!socket && socket.emit("send_message", jsonObject);
+		console.log(jsonObject);
+		socket.emit("send_message", jsonObject);
 	};
 
 	const sendDisconnect = () => {
 		!!socket && socket.disconnect();
 	};
+
 	return (
 		<>
 			<ScrollArea className="h-72 w-1/3 rounded-md border p-2">
-				<div className="flex flex-col items-start gap-2">
-					<span className="rounded-lg rounded-bl-none bg-primary p-2 text-input">
-						Some damn message 1
-					</span>
-					<Badge variant="outline">11/02/2013</Badge>
-				</div>
-				<div className="flex flex-col items-end gap-2">
-					<span className="rounded-lg rounded-br-none bg-primary/50 p-2">
-						Some damn message 2
-					</span>
-					<Badge className="w-fit" variant="outline">
-						11/02/2013
-					</Badge>
-				</div>
+				{!!grpcResponse &&
+					grpcResponse.messages.map((msg) => (
+						<div key={msg.messageId}>
+							<ChatMessage
+								messageStyle={"OWNER_MSG"}
+								message={msg.content}
+								created_at={msg.createdAt}
+							></ChatMessage>
+						</div>
+					))}
 			</ScrollArea>
 			<Form {...form}>
 				<form

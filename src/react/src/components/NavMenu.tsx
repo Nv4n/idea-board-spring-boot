@@ -30,7 +30,7 @@ export const NavMenu = () => {
 						<NavigationMenuLink
 							className={navigationMenuTriggerStyle()}
 						>
-							Home
+							Chat
 						</NavigationMenuLink>
 					</Link>
 				</NavigationMenuItem>

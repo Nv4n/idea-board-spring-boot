@@ -28,6 +28,10 @@ export interface Message {
      * @generated from protobuf field: google.protobuf.Timestamp createdAt = 3;
      */
     createdAt?: Timestamp;
+    /**
+     * @generated from protobuf field: string messageId = 4;
+     */
+    messageId: string;
 }
 /**
  * @generated from protobuf message proto.chat.MessageRequest
@@ -57,13 +61,15 @@ class Message$Type extends MessageType<Message> {
         super("proto.chat.Message", [
             { no: 1, name: "senderId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "createdAt", kind: "message", T: () => Timestamp }
+            { no: 3, name: "createdAt", kind: "message", T: () => Timestamp },
+            { no: 4, name: "messageId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<Message>): Message {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.senderId = "";
         message.content = "";
+        message.messageId = "";
         if (value !== undefined)
             reflectionMergePartial<Message>(this, message, value);
         return message;
@@ -81,6 +87,9 @@ class Message$Type extends MessageType<Message> {
                     break;
                 case /* google.protobuf.Timestamp createdAt */ 3:
                     message.createdAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.createdAt);
+                    break;
+                case /* string messageId */ 4:
+                    message.messageId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -103,6 +112,9 @@ class Message$Type extends MessageType<Message> {
         /* google.protobuf.Timestamp createdAt = 3; */
         if (message.createdAt)
             Timestamp.internalBinaryWrite(message.createdAt, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* string messageId = 4; */
+        if (message.messageId !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.messageId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
