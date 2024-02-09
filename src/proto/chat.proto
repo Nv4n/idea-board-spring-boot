@@ -8,6 +8,7 @@ message Message {
     string senderId = 1;
     string content = 2;
     google.protobuf.Timestamp createdAt = 3;
+    string messageId = 4;
 }
 message MessageRequest{
     string chatRoom = 1;
@@ -17,8 +18,6 @@ message MessageRequest{
 message MessageResponse {
     repeated Message messages = 1;
 }
-
-
 
 service MessageService {
     rpc getAllMessages(MessageRequest) returns (MessageResponse);
