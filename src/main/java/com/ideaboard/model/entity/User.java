@@ -1,4 +1,4 @@
-package com.ideaboard.model;
+package com.ideaboard.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
