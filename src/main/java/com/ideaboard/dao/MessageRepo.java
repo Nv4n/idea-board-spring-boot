@@ -1,6 +1,6 @@
 package com.ideaboard.dao;
 
-import com.ideaboard.model.Message;
+import com.ideaboard.model.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

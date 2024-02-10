@@ -1,6 +1,6 @@
 package com.ideaboard.service;
 
-import com.ideaboard.model.IdeaBoard;
+import com.ideaboard.model.entity.IdeaBoard;
 import com.ideaboard.model.dto.IdeaBoardDto;
 
 import java.util.List;

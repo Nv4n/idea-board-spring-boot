@@ -1,6 +1,6 @@
 package com.ideaboard.dao;
 
-import com.ideaboard.model.Chat;
+import com.ideaboard.model.entity.Chat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

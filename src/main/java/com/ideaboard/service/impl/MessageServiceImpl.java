@@ -23,10 +23,10 @@ public class MessageServiceImpl implements MessageService {
     public List<MessageDto> findAllMessagesByChat(UUID chatId) {
         return messageRepo.findAllByChatId(chatId).stream().map(msg -> {
             MessageDto messageDto = new MessageDto();
-            messageDto.setId(msg.getId());
+            messageDto.setId(msg.getId().toString());
             messageDto.setContent(msg.getContent());
             messageDto.setCreatedAt(msg.getCreatedAt());
-            messageDto.setSenderId(msg.getSender().getId());
+            messageDto.setSenderId(msg.getSender().getId().toString());
             return messageDto;
         }).toList();
     }

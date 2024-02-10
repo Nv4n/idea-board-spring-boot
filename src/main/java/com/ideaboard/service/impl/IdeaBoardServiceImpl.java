@@ -1,6 +1,6 @@
 package com.ideaboard.service.impl;
 
-import com.ideaboard.model.IdeaBoard;
+import com.ideaboard.model.entity.IdeaBoard;
 import com.ideaboard.model.dto.IdeaBoardDto;
 import com.ideaboard.service.IdeaBoardService;
 import org.springframework.stereotype.Service;

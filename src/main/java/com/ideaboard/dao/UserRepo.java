@@ -1,6 +1,6 @@
 package com.ideaboard.dao;
 
-import com.ideaboard.model.User;
+import com.ideaboard.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
