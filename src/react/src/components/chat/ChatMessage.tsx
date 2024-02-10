@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
-import { Timestamp } from "../grpc/google/protobuf/timestamp";
+import { Timestamp } from "../../grpc/google/protobuf/timestamp";
 
 const variantStyles = {
 	OWNER_MSG: {
