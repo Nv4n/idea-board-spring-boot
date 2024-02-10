@@ -16,26 +16,12 @@ import { queryOptions, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { type MessageRequest, type MessageResponse } from "src/grpc/chat";
-import { z } from "zod";
+import { type z } from "zod";
 import { MessageServiceClient } from "../grpc/chat.client";
 import { useSocketIo } from "../hooks/useSocketIo";
 import { ChatMessage } from "./ChatMessage";
 import { LoadinSkeleton } from "./LoadingSkeleton";
-
-const ChatMessageSchema = z.object({
-	msg: z
-		.string()
-		.trim()
-		.min(1, {
-			message: "Message can't be blank",
-		})
-		.max(256, {
-			message: "Message can't be longer than 256 symbols",
-		}),
-});
-interface ChatProps {
-	chatRoom: string;
-}
+import { ChatMessageSchema } from "~/model/ChatTypes";
 
 async function getAllChatMessages(room: string): Promise<MessageResponse> {
 	const msgRequest: MessageRequest = {
@@ -58,6 +44,10 @@ const chatQueryOptions = (room: string) => {
 		staleTime: Infinity,
 	});
 };
+
+interface ChatProps {
+	chatRoom: string;
+}
 
 export const Chat = ({ chatRoom = "123" }: ChatProps) => {
 	const client = useQueryClient();
