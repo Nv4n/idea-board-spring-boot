@@ -1,7 +1,7 @@
 package com.ideaboard.service.impl;
 
 import com.ideaboard.dao.MessageRepo;
-import com.ideaboard.dto.MessageDto;
+import com.ideaboard.model.dto.MessageDto;
 import com.ideaboard.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,5 +29,10 @@ public class MessageServiceImpl implements MessageService {
             messageDto.setSenderId(msg.getSender().getId());
             return messageDto;
         }).toList();
+    }
+
+    @Override
+    public void createMessage(MessageDto messageDto) {
+
     }
 }
