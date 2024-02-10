@@ -13,13 +13,11 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    @NotNull
+    
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "board_id", nullable = false)
     private IdeaBoard board;

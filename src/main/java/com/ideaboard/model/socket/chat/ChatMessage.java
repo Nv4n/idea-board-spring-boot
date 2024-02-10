@@ -1,4 +1,4 @@
-package com.ideaboard.model.chat;
+package com.ideaboard.model.socket.chat;
 
 
 import lombok.Data;
