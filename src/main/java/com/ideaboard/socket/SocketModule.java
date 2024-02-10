@@ -1,12 +1,10 @@
 package com.ideaboard.socket;
 
-import com.corundumstudio.socketio.SocketIONamespace;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
-import com.ideaboard.model.chat.ChatMessage;
-import com.ideaboard.socket.SocketService;
+import com.ideaboard.model.socket.chat.ChatMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

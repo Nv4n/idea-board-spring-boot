@@ -2,8 +2,8 @@ package com.ideaboard.socket;
 
 
 import com.corundumstudio.socketio.SocketIOClient;
-import com.ideaboard.model.chat.ChatMessage;
-import com.ideaboard.model.chat.ChatMessageType;
+import com.ideaboard.model.socket.chat.ChatMessage;
+import com.ideaboard.model.socket.chat.ChatMessageType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
