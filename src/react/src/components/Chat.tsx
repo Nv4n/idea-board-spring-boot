@@ -12,16 +12,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 import { ChevronRightIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { queryOptions, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import {
+	queryOptions,
+	useMutation,
+	useQuery,
+	useQueryClient,
+} from "@tanstack/react-query";
+import { useEffect, useId, useState } from "react";
 import { useForm } from "react-hook-form";
-import { type MessageRequest, type MessageResponse } from "src/grpc/chat";
 import { type z } from "zod";
+import { Timestamp } from "../grpc/google/protobuf/timestamp";
+import {
+	MessageResponse,
+	type Message,
+	type MessageRequest,
+} from "../grpc/chat";
 import { MessageServiceClient } from "../grpc/chat.client";
 import { useSocketIo } from "../hooks/useSocketIo";
+import {
+	ChatMessageSchema,
+	type ChatSocketResponse,
+	type ChatMessageDto,
+} from "../model/ChatTypes";
 import { ChatMessage } from "./ChatMessage";
 import { LoadinSkeleton } from "./LoadingSkeleton";
-import { ChatMessageSchema } from "~/model/ChatTypes";
+import { Separator } from "@radix-ui/react-separator";
+import { ScrollBar } from "@/components/ui/scroll-area";
 
 async function getAllChatMessages(room: string): Promise<MessageResponse> {
 	const msgRequest: MessageRequest = {
@@ -39,7 +55,7 @@ async function getAllChatMessages(room: string): Promise<MessageResponse> {
 
 const chatQueryOptions = (room: string) => {
 	return queryOptions({
-		queryKey: ["users", { room }],
+		queryKey: ["chat", room],
 		queryFn: () => getAllChatMessages(room),
 		staleTime: Infinity,
 	});
@@ -51,6 +67,7 @@ interface ChatProps {
 
 export const Chat = ({ chatRoom = "123" }: ChatProps) => {
 	const client = useQueryClient();
+	const randId = Math.random.toString();
 	const {
 		data: grpcResponse,
 		isLoading,
@@ -73,12 +90,30 @@ export const Chat = ({ chatRoom = "123" }: ChatProps) => {
 		if (!socket || isLoading) {
 			return;
 		}
-		socket.on("get_message", function (data) {
-			console.log("Received message", data);
-			void client.invalidateQueries({
-				queryKey: ["users", { chatRoom }],
-			});
-		});
+		socket.on(
+			"get_message",
+			function ({ type, messageDto: msgDto }: ChatSocketResponse) {
+				console.log("Received message", type, msgDto);
+
+				const currentData = client.getQueryData([
+					"chat",
+					chatRoom,
+				]) as MessageResponse;
+				console.log(currentData);
+
+				const newEnity: Message = {
+					messageId: msgDto.id,
+					senderId: msgDto.senderId,
+					content: msgDto.content,
+					createdAt: Timestamp.fromDate(new Date(msgDto.createdAt)),
+				};
+				const newData: MessageResponse = {
+					messages: [...currentData.messages, newEnity],
+				};
+				form.setValue("msg", "");
+				client.setQueryData(["chat", chatRoom], newData);
+			},
+		);
 
 		socket.connect();
 	}, [client, isLoading, chatRoom, socket]);
@@ -91,32 +126,42 @@ export const Chat = ({ chatRoom = "123" }: ChatProps) => {
 		if (!socket) {
 			return;
 		}
+		const chatMessage: ChatMessageDto = {
+			id: randId,
+			senderId: "dasdasdad",
+			content: values.msg,
+			createdAt: new Date(),
+		};
 		const jsonObject = {
 			type: "CLIENT",
-			message: values.msg,
+			messageDto: chatMessage,
 			room: chatRoom,
 		};
 		console.log(jsonObject);
 		socket.emit("send_message", jsonObject);
 	};
 
-	const sendDisconnect = () => {
-		!!socket && socket.disconnect();
-	};
-
 	return (
 		<>
-			<ScrollArea className="h-72 w-1/3 rounded-md border p-2">
-				{!!grpcResponse &&
-					grpcResponse.messages.map((msg) => (
-						<div key={msg.messageId}>
-							<ChatMessage
-								messageStyle={"OWNER_MSG"}
-								message={msg.content}
-								created_at={msg.createdAt}
-							></ChatMessage>
-						</div>
-					))}
+			<ScrollArea className="max-h-72 w-1/3 overflow-hidden rounded-md border p-2">
+				<div className="p-4">
+					<h4 className="mb-4 text-sm font-medium leading-none">
+						Tags
+					</h4>
+					{!!grpcResponse &&
+						grpcResponse.messages.map((msg) => (
+							<div key={msg.messageId}>
+								<>
+									<ChatMessage
+										messageStyle={"OWNER_MSG"}
+										message={msg.content}
+										created_at={msg.createdAt}
+									></ChatMessage>
+								</>
+							</div>
+						))}
+				</div>
+				<ScrollBar orientation="vertical" />
 			</ScrollArea>
 			<Form {...form}>
 				<form
@@ -162,10 +207,6 @@ export const Chat = ({ chatRoom = "123" }: ChatProps) => {
 					</div>
 				</form>
 			</Form>
-			<Button variant="outline" onClick={sendDisconnect}>
-				<span className="sr-only">Disconnect</span>
-				<Cross2Icon></Cross2Icon>
-			</Button>
 		</>
 	);
 };

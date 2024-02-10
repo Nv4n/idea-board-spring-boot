@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
-import { type Timestamp } from "~/grpc/google/protobuf/timestamp";
+import { Timestamp } from "../grpc/google/protobuf/timestamp";
 
 const variantStyles = {
 	OWNER_MSG: {
@@ -28,8 +28,9 @@ export const ChatMessage = ({
 }: ChatMessageProps) => {
 	const [chatMessage, _scm] = useState(message);
 	const [dateTime, _sdt] = useState(
-		(created_at && new Date(created_at.nanos)) || new Date(Date.now()),
+		(created_at && Timestamp.toDate(created_at)) || new Date(Date.now()),
 	);
+
 	const [variant, _sv] = useState(variantStyles[messageStyle]);
 
 	return (

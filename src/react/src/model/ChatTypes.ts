@@ -1,3 +1,4 @@
+import { strict } from "assert";
 import { z } from "zod";
 
 export const ChatMessageSchema = z.object({
@@ -11,3 +12,17 @@ export const ChatMessageSchema = z.object({
 			message: "Message can't be longer than 256 symbols",
 		}),
 });
+
+export type ChatMessageDto = {
+	id: string;
+	senderId: string;
+	content: string;
+	createdAt: Date;
+};
+
+export type ChatSocketResponse = {
+	type: string;
+	messageDto: ChatMessageDto;
+};
+
+
