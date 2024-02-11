@@ -13,19 +13,22 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as BoardBoardImport } from './routes/board.$board'
+import { Route as BoardBoardNotesImport } from './routes/board.$board.notes'
+import { Route as BoardBoardChatChatImport } from './routes/board.$board.chat.$chat'
 
 // Create Virtual Routes
 
-const ChatLazyImport = createFileRoute('/chat')()
+const BoardsLazyImport = createFileRoute('/boards')()
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
-const ChatLazyRoute = ChatLazyImport.update({
-  path: '/chat',
+const BoardsLazyRoute = BoardsLazyImport.update({
+  path: '/boards',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/chat.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/boards.lazy').then((d) => d.Route))
 
 const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
@@ -36,6 +39,21 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const BoardBoardRoute = BoardBoardImport.update({
+  path: '/board/$board',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BoardBoardNotesRoute = BoardBoardNotesImport.update({
+  path: '/notes',
+  getParentRoute: () => BoardBoardRoute,
+} as any)
+
+const BoardBoardChatChatRoute = BoardBoardChatChatImport.update({
+  path: '/chat/$chat',
+  getParentRoute: () => BoardBoardRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -49,9 +67,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
-    '/chat': {
-      preLoaderRoute: typeof ChatLazyImport
+    '/boards': {
+      preLoaderRoute: typeof BoardsLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/board/$board': {
+      preLoaderRoute: typeof BoardBoardImport
+      parentRoute: typeof rootRoute
+    }
+    '/board/$board/notes': {
+      preLoaderRoute: typeof BoardBoardNotesImport
+      parentRoute: typeof BoardBoardImport
+    }
+    '/board/$board/chat/$chat': {
+      preLoaderRoute: typeof BoardBoardChatChatImport
+      parentRoute: typeof BoardBoardImport
     }
   }
 }
@@ -61,7 +91,8 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   AboutLazyRoute,
-  ChatLazyRoute,
+  BoardsLazyRoute,
+  BoardBoardRoute.addChildren([BoardBoardNotesRoute, BoardBoardChatChatRoute]),
 ])
 
 /* prettier-ignore-end */

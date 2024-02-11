@@ -1,39 +1,36 @@
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import {
 	NavigationMenu,
 	NavigationMenuItem,
 	NavigationMenuLink,
 	NavigationMenuList,
-} from "@radix-ui/react-navigation-menu";
+	navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+
 import { Link } from "@tanstack/react-router";
 
 export const NavMenu = () => {
 	return (
 		<NavigationMenu>
 			<NavigationMenuList>
-				<NavigationMenuItem>
-					<Link to="/">
-						<NavigationMenuLink
-							className={navigationMenuTriggerStyle()}
-						>
-							Home
-						</NavigationMenuLink>
-					</Link>
-					<Link to="/about">
-						<NavigationMenuLink
-							className={navigationMenuTriggerStyle()}
-						>
-							About
-						</NavigationMenuLink>
-					</Link>
-					<Link to="/chat">
-						<NavigationMenuLink
-							className={navigationMenuTriggerStyle()}
-						>
-							Chat
-						</NavigationMenuLink>
-					</Link>
-				</NavigationMenuItem>
+				{(
+					[
+						["/", "Home"],
+						["/about", "About"],
+						["/boards", "Boards"],
+					] as const
+				).map(([to, label]) => {
+					return (
+						<NavigationMenuItem key={to}>
+							<Link to={to}>
+								<NavigationMenuLink
+									className={navigationMenuTriggerStyle()}
+								>
+									{label}
+								</NavigationMenuLink>
+							</Link>
+						</NavigationMenuItem>
+					);
+				})}
 			</NavigationMenuList>
 		</NavigationMenu>
 	);

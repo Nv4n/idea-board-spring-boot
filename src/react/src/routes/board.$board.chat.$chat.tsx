@@ -11,16 +11,17 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { createLazyFileRoute } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	createLazyFileRoute,
+	useParams,
+} from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { type z } from "zod";
+import { z } from "zod";
 import { ChatBox } from "../components/chat/ChatBox";
 import { LoadinSkeleton } from "../components/default/LoadingSkeleton";
-import {
-	type Message,
-	type MessageResponse
-} from "../grpc/chat";
+import { type Message, type MessageResponse } from "../grpc/chat";
 import { Timestamp } from "../grpc/google/protobuf/timestamp";
 import { useSocketIo } from "../hooks/useSocketIo";
 import {
@@ -31,7 +32,14 @@ import {
 	type ChatSocketResponse,
 } from "../model/ChatTypes";
 
-export const Route = createLazyFileRoute("/chat")({
+export const Route = createFileRoute("/board/$board/chat/$chat")({
+	parseParams: (params) => {
+		chat: z.string().uuid().parse(String(params.chat));
+	},
+	stringifyParams: ({ board, chat }) => ({
+		board: `${board}`,
+		chat: `${chat}`,
+	}),
 	component: Chat,
 });
 
