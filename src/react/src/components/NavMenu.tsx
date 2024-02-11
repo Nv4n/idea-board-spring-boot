@@ -7,18 +7,25 @@ import {
 } from "@/components/ui/navigation-menu";
 
 import { Link } from "@tanstack/react-router";
+import { type AuthContext } from "../utils/auth";
 
-export const NavMenu = () => {
+interface NavMenuProps {
+	auth: AuthContext;
+}
+
+export const NavMenu = ({ auth }: NavMenuProps) => {
+
 	return (
 		<NavigationMenu>
 			<NavigationMenuList>
-				{(
-					[
-						["/", "Home"],
-						["/about", "About"],
-						["/boards", "Boards"],
-					] as const
+				{(!!auth.isAuthenticated
+					? ([
+							["/", "Boards"],
+							["/about", "About"],
+						] as const)
+					: ([["/auth/login", "Login"]] as const)
 				).map(([to, label]) => {
+
 					return (
 						<NavigationMenuItem key={to}>
 							<Link to={to}>

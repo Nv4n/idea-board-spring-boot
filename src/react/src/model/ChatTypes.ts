@@ -1,7 +1,7 @@
 import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
-import { type MessageResponse, type MessageRequest } from "~/grpc/chat";
+import { type MessageResponse, type MessageRequest } from "../grpc/chat";
 import { MessageServiceClient } from "../grpc/chat.client";
 
 export const ChatMessageSchema = z.object({

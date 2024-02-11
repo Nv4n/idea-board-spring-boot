@@ -19,16 +19,11 @@ import { Route as BoardBoardChatChatImport } from './routes/board.$board.chat.$c
 
 // Create Virtual Routes
 
-const BoardsLazyImport = createFileRoute('/boards')()
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
+const AuthActionLazyImport = createFileRoute('/auth/$action')()
 
 // Create/Update Routes
-
-const BoardsLazyRoute = BoardsLazyImport.update({
-  path: '/boards',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/boards.lazy').then((d) => d.Route))
 
 const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
@@ -39,6 +34,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const AuthActionLazyRoute = AuthActionLazyImport.update({
+  path: '/auth/$action',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/auth.$action.lazy').then((d) => d.Route))
 
 const BoardBoardRoute = BoardBoardImport.update({
   path: '/board/$board',
@@ -67,12 +67,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
-    '/boards': {
-      preLoaderRoute: typeof BoardsLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/board/$board': {
       preLoaderRoute: typeof BoardBoardImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/$action': {
+      preLoaderRoute: typeof AuthActionLazyImport
       parentRoute: typeof rootRoute
     }
     '/board/$board/notes': {
@@ -91,8 +91,8 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   AboutLazyRoute,
-  BoardsLazyRoute,
   BoardBoardRoute.addChildren([BoardBoardNotesRoute, BoardBoardChatChatRoute]),
+  AuthActionLazyRoute,
 ])
 
 /* prettier-ignore-end */

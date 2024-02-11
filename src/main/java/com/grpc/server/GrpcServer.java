@@ -1,5 +1,6 @@
 package com.grpc.server;
 
+import com.grpc.service.AuthServiceImpl;
 import com.grpc.service.ChatServiceImpl;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -11,6 +12,7 @@ public class GrpcServer {
         // Create a new server to listen on port 9090
         Server server = ServerBuilder.forPort(PORT)
                 .addService(new ChatServiceImpl())
+                .addService(new AuthServiceImpl())
                 .build();
 
         // Start the server

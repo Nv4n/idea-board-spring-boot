@@ -6,10 +6,16 @@ import { ErrorComponent } from "./components/default/ErrorComponent";
 import { LoadinSkeleton } from "./components/default/LoadingSkeleton";
 import "./index.css";
 import { routeTree } from "./routeTree.gen";
+import { AuthProvider, useAuth, type AuthContext } from "./utils/auth";
 
 const queryClient = new QueryClient({
 	defaultOptions: { queries: { staleTime: Infinity } },
 });
+
+export interface RouterContext {
+	auth: AuthContext | undefined;
+	queryClient: typeof queryClient;
+}
 
 const router = createRouter({
 	defaultPendingComponent: () => <LoadinSkeleton></LoadinSkeleton>,
@@ -32,14 +38,25 @@ declare module "@tanstack/react-router" {
 	}
 }
 
+function InnerApp() {
+	const auth = useAuth();
+	return <RouterProvider router={router} context={{ auth, queryClient }} />;
+}
+
+function App() {
+	return (
+		<StrictMode>
+			<QueryClientProvider client={queryClient}>
+				<AuthProvider>
+					<InnerApp></InnerApp>
+				</AuthProvider>
+			</QueryClientProvider>
+		</StrictMode>
+	);
+}
+
 const rootElement = document.getElementById("app")!;
 if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);
-	root.render(
-		<StrictMode>
-			<QueryClientProvider client={queryClient}>
-				<RouterProvider router={router} />
-			</QueryClientProvider>
-		</StrictMode>,
-	);
+	root.render(<App></App>);
 }

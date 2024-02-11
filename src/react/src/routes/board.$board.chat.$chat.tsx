@@ -11,11 +11,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-	createFileRoute,
-	createLazyFileRoute,
-	useParams,
-} from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -96,7 +92,7 @@ function Chat({
 					createdAt: Timestamp.fromDate(new Date(msgDto.createdAt)),
 				};
 				const newData: MessageResponse = {
-					messages: [...currentData.messages, newEnity],
+					messages: [newEnity, ...currentData.messages],
 				};
 				form.setValue("msg", "");
 				client.setQueryData(["chat", chatRoom], newData);
