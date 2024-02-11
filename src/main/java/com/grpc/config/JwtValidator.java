@@ -1,10 +1,9 @@
 package com.grpc.config;
 
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.JWSHeader;
-import com.nimbusds.jose.JWSSigner;
+import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
+import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.stereotype.Component;
@@ -21,12 +20,13 @@ public class JwtValidator {
                 .claim("iss", "localhost:5173")
                 .build();
 
-        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256).build();
+        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.HS256).build();
         SignedJWT signedJWT = new SignedJWT(header, claims);
 
         String secret = "yourSecret";
         byte[] secretKey = secret.getBytes(StandardCharsets.UTF_8);
         JWSSigner signer = new MACSigner(secretKey);
+
         signedJWT.sign(signer);
     }
 }

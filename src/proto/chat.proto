@@ -10,15 +10,15 @@ message Message {
     google.protobuf.Timestamp createdAt = 3;
     string messageId = 4;
 }
-message MessageRequest{
+message ChatRequest{
     string chatRoom = 1;
     int32 requestedChunkSize = 2;
 }
 
-message MessageResponse {
+message ChatResponse {
     repeated Message messages = 1;
 }
 
-service MessageService {
-    rpc getAllMessages(MessageRequest) returns (MessageResponse);
+service ChatService {
+    rpc getAllMessages(ChatRequest) returns (ChatResponse);
 }

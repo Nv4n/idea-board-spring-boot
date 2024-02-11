@@ -16,6 +16,9 @@ public class IdeaBoard {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false, length = 64)
+    private String title;
+
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
@@ -29,9 +32,28 @@ public class IdeaBoard {
     @OneToOne(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Chat chat;
 
+    @OneToOne(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
+    private WhiteBoard whiteBoard;
+
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt = new Date();
+
+    public WhiteBoard getWhiteBoard() {
+        return whiteBoard;
+    }
+
+    public void setWhiteBoard(WhiteBoard whiteBoard) {
+        this.whiteBoard = whiteBoard;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public void setId(UUID id) {
         this.id = id;
@@ -88,6 +110,7 @@ public class IdeaBoard {
         final StringBuilder sb = new StringBuilder("IdeaBoard{");
         sb.append("id=").append(id);
         sb.append(", owner=").append(creator.getId());
+        sb.append(", title=").append(title);
         sb.append(", chat=").append(chat.getId());
         sb.append(", createdAt=").append(createdAt);
         sb.append('}');

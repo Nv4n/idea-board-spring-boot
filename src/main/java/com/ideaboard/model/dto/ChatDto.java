@@ -10,18 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class IdeaBoardDto {
+public class ChatDto {
     @NotBlank
-    @EqualsAndHashCode.Include
     private String id;
-
-    @NotBlank
-    @EqualsAndHashCode.Include
-    private String creatorId;
-
-    @NotBlank
-    private String title;
-
-    @NotBlank
-    private String chatId;
 }

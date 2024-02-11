@@ -60,8 +60,11 @@ sourceSets {
 }
 
 dependencies {
+    implementation("org.springframework.security:spring-security-config:6.2.1")
     implementation("com.corundumstudio.socketio:netty-socketio:2.0.8")
     implementation("com.nimbusds:nimbus-jose-jwt:9.37.3")
+    implementation("io.jsonwebtoken:jjwt-api:0.12.5")
+
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")
     implementation("com.google.protobuf:protobuf-java:3.25.2")
     implementation("io.grpc:grpc-protobuf:1.61.0")

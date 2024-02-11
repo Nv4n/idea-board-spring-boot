@@ -1,25 +1,25 @@
 package com.ideaboard.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "CHATS")
-public class Chat {
+@Table(name = "WHITEBOARDS")
+public class WhiteBoard {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    //Has to be the snapshot json schema
+    @Column(nullable = true)
+    private String snapshot;
 
     @OneToOne
-    @JoinColumn(name = "board_id", nullable = false)
+    @JoinColumn(name = "board_id", nullable = true)
     private IdeaBoard board;
-
-    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Message> messages = new ArrayList<>();
 
     public UUID getId() {
         return id;
@@ -29,13 +29,14 @@ public class Chat {
         this.id = id;
     }
 
-    public List<Message> getMessages() {
-        return messages;
+    public String getSnapshot() {
+        return snapshot;
     }
 
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
+    public void setSnapshot(String snapshot) {
+        this.snapshot = snapshot;
     }
+
 
     public IdeaBoard getBoard() {
         return board;
@@ -47,10 +48,11 @@ public class Chat {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Chat{");
+        final StringBuilder sb = new StringBuilder("WhiteBoard{");
         sb.append("id=").append(id);
-        sb.append(", board=").append(board.getId());
+        sb.append(", snapshot='").append(snapshot).append('\'');
         sb.append('}');
         return sb.toString();
     }
+
 }
