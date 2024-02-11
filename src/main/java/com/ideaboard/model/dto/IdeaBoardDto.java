@@ -1,23 +1,27 @@
 package com.ideaboard.model.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class IdeaBoardDto {
-    @NotNull
+public class FullIdeaBoardDto {
+    @NotBlank
     @EqualsAndHashCode.Include
-    private UUID id;
+    private String id;
 
-    @NotNull
+    @NotBlank
     @EqualsAndHashCode.Include
-    private UUID creatorId;
+    private String creatorId;
+
+    @NotBlank
+    private String title;
+
+    @NotBlank
+    private String chatId;
 }

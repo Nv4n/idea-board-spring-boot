@@ -32,6 +32,10 @@ export interface AuthResponse {
      * @generated from protobuf field: string token = 1;
      */
     token: string;
+    /**
+     * @generated from protobuf field: string user_id = 2;
+     */
+    userId: string;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class UserDTO$Type extends MessageType<UserDTO> {
@@ -92,12 +96,14 @@ export const UserDTO = new UserDTO$Type();
 class AuthResponse$Type extends MessageType<AuthResponse> {
     constructor() {
         super("proto.auth.AuthResponse", [
-            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "user_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<AuthResponse>): AuthResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.token = "";
+        message.userId = "";
         if (value !== undefined)
             reflectionMergePartial<AuthResponse>(this, message, value);
         return message;
@@ -109,6 +115,9 @@ class AuthResponse$Type extends MessageType<AuthResponse> {
             switch (fieldNo) {
                 case /* string token */ 1:
                     message.token = reader.string();
+                    break;
+                case /* string user_id */ 2:
+                    message.userId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -125,6 +134,9 @@ class AuthResponse$Type extends MessageType<AuthResponse> {
         /* string token = 1; */
         if (message.token !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.token);
+        /* string user_id = 2; */
+        if (message.userId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.userId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

@@ -1,8 +1,8 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { type MessageResponse } from "~/grpc/chat";
+import { type ChatResponse } from "~/grpc/chat";
 import { ChatMessage } from "./ChatMessage";
 
-export const ChatBox = (grpcResponse: MessageResponse | undefined) => {
+export const ChatBox = (grpcResponse: ChatResponse | undefined) => {
 	return (
 		<ScrollArea className="max-h-72 w-1/3 overflow-hidden rounded-md border p-2">
 			<div className="p-4">

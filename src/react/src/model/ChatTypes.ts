@@ -1,8 +1,8 @@
 import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
-import { type MessageResponse, type MessageRequest } from "../grpc/chat";
-import { MessageServiceClient } from "../grpc/chat.client";
+import { type ChatRequest, type ChatResponse } from "../grpc/chat";
+import { ChatServiceClient } from "../grpc/chat.client";
 
 export const ChatMessageSchema = z.object({
 	msg: z
@@ -41,8 +41,8 @@ export const chatQueryOptions = (room: string) => {
 	});
 };
 
-async function getAllChatMessages(room: string): Promise<MessageResponse> {
-	const msgRequest: MessageRequest = {
+async function getAllChatMessages(room: string): Promise<ChatResponse> {
+	const msgRequest: ChatRequest = {
 		chatRoom: room,
 		requestedChunkSize: 25,
 	};
@@ -50,7 +50,7 @@ async function getAllChatMessages(room: string): Promise<MessageResponse> {
 		baseUrl: "http://localhost:8000",
 	});
 
-	const client = new MessageServiceClient(transport);
+	const client = new ChatServiceClient(transport);
 	const { response } = await client.getAllMessages(msgRequest);
 	return response;
 }

@@ -3,35 +3,35 @@
 // tslint:disable
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
-import { MessageService } from "./chat";
+import { ChatService } from "./chat";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
-import type { MessageResponse } from "./chat";
-import type { MessageRequest } from "./chat";
+import type { ChatResponse } from "./chat";
+import type { ChatRequest } from "./chat";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
- * @generated from protobuf service proto.chat.MessageService
+ * @generated from protobuf service proto.chat.ChatService
  */
-export interface IMessageServiceClient {
+export interface IChatServiceClient {
     /**
-     * @generated from protobuf rpc: getAllMessages(proto.chat.MessageRequest) returns (proto.chat.MessageResponse);
+     * @generated from protobuf rpc: getAllMessages(proto.chat.ChatRequest) returns (proto.chat.ChatResponse);
      */
-    getAllMessages(input: MessageRequest, options?: RpcOptions): UnaryCall<MessageRequest, MessageResponse>;
+    getAllMessages(input: ChatRequest, options?: RpcOptions): UnaryCall<ChatRequest, ChatResponse>;
 }
 /**
- * @generated from protobuf service proto.chat.MessageService
+ * @generated from protobuf service proto.chat.ChatService
  */
-export class MessageServiceClient implements IMessageServiceClient, ServiceInfo {
-    typeName = MessageService.typeName;
-    methods = MessageService.methods;
-    options = MessageService.options;
+export class ChatServiceClient implements IChatServiceClient, ServiceInfo {
+    typeName = ChatService.typeName;
+    methods = ChatService.methods;
+    options = ChatService.options;
     constructor(private readonly _transport: RpcTransport) {
     }
     /**
-     * @generated from protobuf rpc: getAllMessages(proto.chat.MessageRequest) returns (proto.chat.MessageResponse);
+     * @generated from protobuf rpc: getAllMessages(proto.chat.ChatRequest) returns (proto.chat.ChatResponse);
      */
-    getAllMessages(input: MessageRequest, options?: RpcOptions): UnaryCall<MessageRequest, MessageResponse> {
+    getAllMessages(input: ChatRequest, options?: RpcOptions): UnaryCall<ChatRequest, ChatResponse> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
-        return stackIntercept<MessageRequest, MessageResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<ChatRequest, ChatResponse>("unary", this._transport, method, opt, input);
     }
 }

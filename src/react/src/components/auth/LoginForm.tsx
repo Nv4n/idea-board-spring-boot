@@ -9,33 +9,33 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { UserAuthSchema } from "../model/UserTypes";
-import { type z } from "zod";
 import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
-import { type AuthResponse, type UserDTO } from "../grpc/auth";
-import { AuthServiceClient } from "../grpc/auth.client";
-import { useAuth } from "../utils/auth";
+import { useForm } from "react-hook-form";
+import { type z } from "zod";
+import { AuthServiceClient } from "../../grpc/auth.client";
+import { type AuthResponse, type UserDTO } from "../../grpc/auth";
+import { UserAuthSchema } from "../../model/UserTypes";
+import { useAuth } from "../../utils/auth";
 import { useNavigate } from "@tanstack/react-router";
 
-async function sendRegisterRequest(
-	username: string,
-	password: string,
+async function sendLoginRequest(
+	user: string,
+	pass: string,
 ): Promise<AuthResponse> {
-	const registerRequest: UserDTO = {
-		username: username,
-		password: password,
+	const loginRequest: UserDTO = {
+		username: user,
+		password: pass,
 	};
 	const transport = new GrpcWebFetchTransport({
 		baseUrl: "http://localhost:8000",
 	});
 
 	const client = new AuthServiceClient(transport);
-	const { response } = await client.register(registerRequest);
+	const { response } = await client.login(loginRequest);
 	return response;
 }
 
-export const RegisterForm = () => {
+export const LoginForm = () => {
 	const auth = useAuth();
 	const navigate = useNavigate();
 	const form = useForm<z.infer<typeof UserAuthSchema>>({
@@ -47,10 +47,12 @@ export const RegisterForm = () => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof UserAuthSchema>) => {
-		const { token } = await sendRegisterRequest(
+		const { token } = await sendLoginRequest(
 			values.username,
 			values.password,
 		);
+		console.log(token);
+
 		if (token === "") {
 			form.setError("root", {
 				type: "server",
@@ -98,7 +100,7 @@ export const RegisterForm = () => {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Register</Button>
+				<Button type="submit">Login</Button>
 			</form>
 		</Form>
 	);

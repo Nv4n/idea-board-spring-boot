@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ChatBox } from "../components/chat/ChatBox";
 import { LoadinSkeleton } from "../components/default/LoadingSkeleton";
-import { type Message, type MessageResponse } from "../grpc/chat";
+import { type Message, type ChatResponse } from "../grpc/chat";
 import { Timestamp } from "../grpc/google/protobuf/timestamp";
 import { useSocketIo } from "../hooks/useSocketIo";
 import {
@@ -83,7 +83,7 @@ function Chat({
 				const currentData = client.getQueryData([
 					"chat",
 					chatRoom,
-				]) as MessageResponse;
+				]) as ChatResponse;
 
 				const newEnity: Message = {
 					messageId: msgDto.id,
@@ -91,7 +91,7 @@ function Chat({
 					content: msgDto.content,
 					createdAt: Timestamp.fromDate(new Date(msgDto.createdAt)),
 				};
-				const newData: MessageResponse = {
+				const newData: ChatResponse = {
 					messages: [newEnity, ...currentData.messages],
 				};
 				form.setValue("msg", "");

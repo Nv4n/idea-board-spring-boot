@@ -34,9 +34,9 @@ export interface Message {
     messageId: string;
 }
 /**
- * @generated from protobuf message proto.chat.MessageRequest
+ * @generated from protobuf message proto.chat.ChatRequest
  */
-export interface MessageRequest {
+export interface ChatRequest {
     /**
      * @generated from protobuf field: string chatRoom = 1;
      */
@@ -47,9 +47,9 @@ export interface MessageRequest {
     requestedChunkSize: number;
 }
 /**
- * @generated from protobuf message proto.chat.MessageResponse
+ * @generated from protobuf message proto.chat.ChatResponse
  */
-export interface MessageResponse {
+export interface ChatResponse {
     /**
      * @generated from protobuf field: repeated proto.chat.Message messages = 1;
      */
@@ -126,22 +126,22 @@ class Message$Type extends MessageType<Message> {
  */
 export const Message = new Message$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class MessageRequest$Type extends MessageType<MessageRequest> {
+class ChatRequest$Type extends MessageType<ChatRequest> {
     constructor() {
-        super("proto.chat.MessageRequest", [
+        super("proto.chat.ChatRequest", [
             { no: 1, name: "chatRoom", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "requestedChunkSize", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
-    create(value?: PartialMessage<MessageRequest>): MessageRequest {
+    create(value?: PartialMessage<ChatRequest>): ChatRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.chatRoom = "";
         message.requestedChunkSize = 0;
         if (value !== undefined)
-            reflectionMergePartial<MessageRequest>(this, message, value);
+            reflectionMergePartial<ChatRequest>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: MessageRequest): MessageRequest {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ChatRequest): ChatRequest {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -163,7 +163,7 @@ class MessageRequest$Type extends MessageType<MessageRequest> {
         }
         return message;
     }
-    internalBinaryWrite(message: MessageRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    internalBinaryWrite(message: ChatRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string chatRoom = 1; */
         if (message.chatRoom !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.chatRoom);
@@ -177,24 +177,24 @@ class MessageRequest$Type extends MessageType<MessageRequest> {
     }
 }
 /**
- * @generated MessageType for protobuf message proto.chat.MessageRequest
+ * @generated MessageType for protobuf message proto.chat.ChatRequest
  */
-export const MessageRequest = new MessageRequest$Type();
+export const ChatRequest = new ChatRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class MessageResponse$Type extends MessageType<MessageResponse> {
+class ChatResponse$Type extends MessageType<ChatResponse> {
     constructor() {
-        super("proto.chat.MessageResponse", [
+        super("proto.chat.ChatResponse", [
             { no: 1, name: "messages", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Message }
         ]);
     }
-    create(value?: PartialMessage<MessageResponse>): MessageResponse {
+    create(value?: PartialMessage<ChatResponse>): ChatResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.messages = [];
         if (value !== undefined)
-            reflectionMergePartial<MessageResponse>(this, message, value);
+            reflectionMergePartial<ChatResponse>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: MessageResponse): MessageResponse {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ChatResponse): ChatResponse {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -213,7 +213,7 @@ class MessageResponse$Type extends MessageType<MessageResponse> {
         }
         return message;
     }
-    internalBinaryWrite(message: MessageResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    internalBinaryWrite(message: ChatResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* repeated proto.chat.Message messages = 1; */
         for (let i = 0; i < message.messages.length; i++)
             Message.internalBinaryWrite(message.messages[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
@@ -224,12 +224,12 @@ class MessageResponse$Type extends MessageType<MessageResponse> {
     }
 }
 /**
- * @generated MessageType for protobuf message proto.chat.MessageResponse
+ * @generated MessageType for protobuf message proto.chat.ChatResponse
  */
-export const MessageResponse = new MessageResponse$Type();
+export const ChatResponse = new ChatResponse$Type();
 /**
- * @generated ServiceType for protobuf service proto.chat.MessageService
+ * @generated ServiceType for protobuf service proto.chat.ChatService
  */
-export const MessageService = new ServiceType("proto.chat.MessageService", [
-    { name: "getAllMessages", options: {}, I: MessageRequest, O: MessageResponse }
+export const ChatService = new ServiceType("proto.chat.ChatService", [
+    { name: "getAllMessages", options: {}, I: ChatRequest, O: ChatResponse }
 ]);
