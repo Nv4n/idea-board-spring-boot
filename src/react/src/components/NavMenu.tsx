@@ -14,7 +14,6 @@ interface NavMenuProps {
 }
 
 export const NavMenu = ({ auth }: NavMenuProps) => {
-
 	return (
 		<NavigationMenu>
 			<NavigationMenuList>
@@ -22,10 +21,10 @@ export const NavMenu = ({ auth }: NavMenuProps) => {
 					? ([
 							["/", "Boards"],
 							["/about", "About"],
+							["/auth/logout", "Logout"],
 						] as const)
 					: ([["/auth/login", "Login"]] as const)
 				).map(([to, label]) => {
-
 					return (
 						<NavigationMenuItem key={to}>
 							<Link to={to}>

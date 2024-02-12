@@ -45,10 +45,16 @@ message GetAllNotesRequest{
 message GetAllNotesResponse{
     repeated NoteDto notes = 1;
 }
+
+message GetBoardRequest{
+    string board_id = 1;
+    string token = 2;
+}
 service BoardService{
     rpc createBoard (CreateBoardRequest) returns (google.protobuf.Empty);
     rpc getAllBoards (GetAllBoardsRequest) returns(GetAllBoardsResponse);
     rpc createNote (CreateNoteRequest) returns (google.protobuf.Empty);
     rpc getAllNotes (GetAllNotesRequest) returns (GetAllNotesResponse);
+    rpc getBoard (GetBoardRequest) returns(BoardDto);
 }
 

@@ -7,7 +7,9 @@ import com.ideaboard.model.dto.MessageDto;
 import com.ideaboard.model.entity.Chat;
 import com.ideaboard.model.entity.Message;
 import com.ideaboard.model.entity.User;
+import com.ideaboard.service.ChatService;
 import com.ideaboard.service.MessageService;
+import com.ideaboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +21,14 @@ import java.util.UUID;
 public class MessageServiceImpl implements MessageService {
 
     private MessageRepo messageRepo;
-    private ChatRepo chatRepo;
-    private UserRepo userRepo;
+    private ChatService chatService;
+    private UserService userService;
 
     @Autowired
-    public MessageServiceImpl(MessageRepo messageRepo, ChatRepo chatRepo, UserRepo userRepo) {
+    public MessageServiceImpl(MessageRepo messageRepo, ChatRepo chatRepo, ChatService chatService, UserService userService) {
         this.messageRepo = messageRepo;
-        this.chatRepo = chatRepo;
-        this.userRepo = userRepo;
+        this.chatService = chatService;
+        this.userService = userService;
     }
 
     @Override
@@ -45,11 +47,11 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Optional<MessageDto> createMessage(String room, MessageDto messageDto) {
 
-        Optional<Chat> chat = chatRepo.findById(UUID.fromString(room));
+        Optional<Chat> chat = chatService.findById(UUID.fromString(room));
         if (chat.isEmpty()) {
             return Optional.empty();
         }
-        Optional<User> user = userRepo.findById(UUID.fromString(messageDto.getSenderId()));
+        Optional<User> user = userService.findById(UUID.fromString(messageDto.getSenderId()));
         if (user.isEmpty()) {
             return Optional.empty();
         }

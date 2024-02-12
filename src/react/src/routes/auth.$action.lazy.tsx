@@ -28,12 +28,17 @@ function AuthComponent() {
 	const { action } = Route.useParams();
 	const navigate = useNavigate();
 
+	if (action === "logout") {
+		auth.setToken("");
+		auth.setUser("");
+	}
 	if (auth.isAuthenticated) {
 		void navigate({ to: "/" });
 	}
 	if (action !== "login" && action !== "register") {
 		void navigate({ to: "/auth/$action", params: { action: "login" } });
 	}
+
 	return (
 		<>
 			<Tabs defaultValue={action} className="w-[400px]">

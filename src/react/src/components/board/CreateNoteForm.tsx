@@ -38,7 +38,11 @@ async function sendCreateNoteRequest(
 	return response;
 }
 
-export const CreateNoteForm = () => {
+interface CreateNoteProps {
+	board: string;
+}
+
+export const CreateNoteForm = ({ board }: CreateNoteProps) => {
 	const auth = useAuth();
 	const navigate = useNavigate();
 	const form = useForm<z.infer<typeof NoteSchema>>({
@@ -53,9 +57,13 @@ export const CreateNoteForm = () => {
 	}
 
 	const onSubmit = async (values: z.infer<typeof NoteSchema>) => {
-		const response = await sendCreateNoteRequest(values.content, "", "");
+		const response = await sendCreateNoteRequest(
+			values.content,
+			auth.user,
+			auth.token,
+		);
 		console.log(response);
-		await navigate({ to: "/" });
+		await navigate({ to: "/board/$board", params: { board: board } });
 	};
 
 	return (

@@ -47,17 +47,18 @@ export const RegisterForm = () => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof UserAuthSchema>) => {
-		const { token } = await sendRegisterRequest(
+		const { userId, token } = await sendRegisterRequest(
 			values.username,
 			values.password,
 		);
-		if (token === "") {
+		if (!!token || !!userId) {
 			form.setError("root", {
 				type: "server",
 				message: "Wrong password or username",
 			});
 		} else {
-			auth.setUser(token);
+			auth.setUser(userId);
+			auth.setToken(token);
 			await navigate({ to: "/" });
 		}
 	};

@@ -11,6 +11,7 @@ import com.ideaboard.model.entity.Message;
 import com.ideaboard.model.entity.User;
 import com.ideaboard.service.ChatService;
 import com.ideaboard.service.IdeaBoardService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,13 +59,14 @@ public class IdeaBoardServiceImpl implements IdeaBoardService {
         return Optional.of(ideaBoardDto);
     }
 
+    @Transactional
     @Override
     public Optional<IdeaBoardDto> createIdeaBoard(IdeaBoardDto ideaBoard) {
         Optional<User> user = userRepo.findById(UUID.fromString(ideaBoard.getCreatorId()));
         if (user.isEmpty()) {
             return Optional.empty();
         }
-        chatService.createChat();
+
 
         IdeaBoard ideaBoardEntity = new IdeaBoard();
 //        ideaBoardEntity.setChat(chat.get());
@@ -73,9 +75,14 @@ public class IdeaBoardServiceImpl implements IdeaBoardService {
         ideaBoardEntity.setCreatedAt(new Date());
 
         IdeaBoard createdEntity = ideaBoardRepo.save(ideaBoardEntity);
+
+        Chat chat = chatService.createChat(createdEntity);
+        createdEntity.setChat(chat);
+        ideaBoardRepo.save(createdEntity);
+        
         IdeaBoardDto returIdeaBoardDto = new IdeaBoardDto();
         returIdeaBoardDto.setTitle(createdEntity.getTitle());
-//        returIdeaBoardDto.setChatId(chat.get().getId().toString());
+        returIdeaBoardDto.setChatId(chat.getId().toString());
         returIdeaBoardDto.setId(createdEntity.getId().toString());
         returIdeaBoardDto.setCreatorId(user.get().getId().toString());
         return Optional.of(returIdeaBoardDto);

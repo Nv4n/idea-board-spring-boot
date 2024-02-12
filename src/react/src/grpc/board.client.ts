@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { BoardService } from "./board";
+import type { BoardDto } from "./board";
+import type { GetBoardRequest } from "./board";
 import type { GetAllNotesResponse } from "./board";
 import type { GetAllNotesRequest } from "./board";
 import type { CreateNoteRequest } from "./board";
@@ -34,6 +36,10 @@ export interface IBoardServiceClient {
      * @generated from protobuf rpc: getAllNotes(proto.board.GetAllNotesRequest) returns (proto.board.GetAllNotesResponse);
      */
     getAllNotes(input: GetAllNotesRequest, options?: RpcOptions): UnaryCall<GetAllNotesRequest, GetAllNotesResponse>;
+    /**
+     * @generated from protobuf rpc: getBoard(proto.board.GetBoardRequest) returns (proto.board.BoardDto);
+     */
+    getBoard(input: GetBoardRequest, options?: RpcOptions): UnaryCall<GetBoardRequest, BoardDto>;
 }
 /**
  * @generated from protobuf service proto.board.BoardService
@@ -71,5 +77,12 @@ export class BoardServiceClient implements IBoardServiceClient, ServiceInfo {
     getAllNotes(input: GetAllNotesRequest, options?: RpcOptions): UnaryCall<GetAllNotesRequest, GetAllNotesResponse> {
         const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetAllNotesRequest, GetAllNotesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: getBoard(proto.board.GetBoardRequest) returns (proto.board.BoardDto);
+     */
+    getBoard(input: GetBoardRequest, options?: RpcOptions): UnaryCall<GetBoardRequest, BoardDto> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetBoardRequest, BoardDto>("unary", this._transport, method, opt, input);
     }
 }

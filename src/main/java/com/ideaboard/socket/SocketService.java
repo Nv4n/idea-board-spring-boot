@@ -34,7 +34,7 @@ public class SocketService {
                     client.sendEvent("error_chat", new ChatError(ChatMessageType.SERVER, "Couldn't send message"));
                     continue;
                 }
-
+                log.info("MSG: {}", createdMessage);
                 client.sendEvent(eventName,
                         new ChatMessage(ChatMessageType.SERVER, messageDto));
             }

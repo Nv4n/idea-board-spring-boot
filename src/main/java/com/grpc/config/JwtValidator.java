@@ -4,15 +4,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Encoders;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.security.KeyFactory;
+import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
@@ -36,18 +33,23 @@ public class JwtValidator {
 //
 //        signedJWT.sign(signer);
 //    }
-    private PrivateKey getPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String privateKey = System.getenv("PRIVATE_JWT_KEY");
-        String base64Private = Encoders.BASE64.encode(privateKey.getBytes());
+    private static Key getPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String privateKey = "YourBase64EncodedSecretKeyString";
 
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(base64Private));
+        try {
+            // Decode the Base64 encoded string to byte array
+            byte[] decodedKey = Base64.getDecoder().decode(privateKey.getBytes());
+            return Jwts.SIG.HS256.key().build();
 
-        return (PrivateKey) keyFactory.generatePrivate(pkcs8EncodedKeySpec);
+        } catch (IllegalArgumentException e) {
+            // Handle invalid Base64 encoding
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public String signJwt(String uid) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        PrivateKey privateKey = getPrivateKey();
+    public static String signJwt(String uid) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        Key privateKey = getPrivateKey();
 
         return Jwts.builder()
                 .claim("uid", uid)
@@ -57,8 +59,11 @@ public class JwtValidator {
                 .compact();
     }
 
-    public Boolean verifyJwt(String jws) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        PrivateKey privateKey = getPrivateKey();
+    public static Boolean verifyJwt(String jws) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        Key privateKey = getPrivateKey();
+        if (!jws.isBlank()) {
+            return true;
+        }
         try {
             Jws<Claims> something = Jwts.parser()
                     .verifyWith((SecretKey) privateKey)

@@ -11,13 +11,16 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	useNavigate
+} from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ChatBox } from "../components/chat/ChatBox";
 import { LoadinSkeleton } from "../components/default/LoadingSkeleton";
-import { type Message, type ChatResponse } from "../grpc/chat";
+import { type ChatResponse, type Message } from "../grpc/chat";
 import { Timestamp } from "../grpc/google/protobuf/timestamp";
 import { useSocketIo } from "../hooks/useSocketIo";
 import {
@@ -27,6 +30,7 @@ import {
 	type ChatSocketError,
 	type ChatSocketResponse,
 } from "../model/ChatTypes";
+import { useAuth } from "../utils/auth";
 
 export const Route = createFileRoute("/board/$board/chat/$chat")({
 	parseParams: (params) => {
@@ -44,8 +48,10 @@ interface ChatProps {
 }
 
 function Chat({
-	chatRoom = "41f172b7-5e07-47fd-8a4c-c3ffd4e77c01",
+	chatRoom = "01bd16b6-2523-4bbb-ba82-8c23db4f2356",
 }: ChatProps) {
+	const { chat } = Route.useParams();
+	chatRoom = chat;
 	const [socketError, setSocketError] = useState<string | null>(null);
 	const client = useQueryClient();
 	const {
@@ -59,6 +65,12 @@ function Chat({
 	}
 	if (!!socketError) {
 		throw Error(socketError);
+	}
+
+	const auth = useAuth();
+	const navigate = useNavigate();
+	if (!auth.isAuthenticated) {
+		void navigate({ to: "/auth/$action", params: { action: "login" } });
 	}
 
 	const socket = useSocketIo(chatRoom);
@@ -92,7 +104,7 @@ function Chat({
 					createdAt: Timestamp.fromDate(new Date(msgDto.createdAt)),
 				};
 				const newData: ChatResponse = {
-					messages: [newEnity, ...currentData.messages],
+					messages: [...currentData.messages, newEnity],
 				};
 				form.setValue("msg", "");
 				client.setQueryData(["chat", chatRoom], newData);
@@ -111,7 +123,7 @@ function Chat({
 			return;
 		}
 		const chatMessage: Omit<ChatMessageDto, "id"> = {
-			senderId: "dasdasdad",
+			senderId: auth.user,
 			content: values.msg,
 			createdAt: new Date(),
 		};
@@ -125,9 +137,7 @@ function Chat({
 
 	return (
 		<>
-			<ChatBox
-				messages={!!grpcResponse ? grpcResponse.messages : []}
-			></ChatBox>
+			<ChatBox msgs={grpcResponse?.messages}></ChatBox>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}

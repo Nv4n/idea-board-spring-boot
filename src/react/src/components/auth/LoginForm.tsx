@@ -47,19 +47,19 @@ export const LoginForm = () => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof UserAuthSchema>) => {
-		const { token } = await sendLoginRequest(
+		const { token, userId } = await sendLoginRequest(
 			values.username,
 			values.password,
 		);
-		console.log(token);
 
-		if (token === "") {
+		if (!token || !userId) {
 			form.setError("root", {
 				type: "server",
 				message: "Wrong password or username",
 			});
 		} else {
-			auth.setUser(token);
+			auth.setUser(userId);
+			auth.setToken(token);
 			await navigate({ to: "/" });
 		}
 	};

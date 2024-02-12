@@ -13,15 +13,21 @@ import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
-import { type CreateBoardRequest } from "~/grpc/board";
-import { BoardServiceClient } from "~/grpc/board.client";
-import { type Empty } from "~/grpc/google/protobuf/empty";
+import { type CreateBoardRequest } from "../../grpc/board";
+import { BoardServiceClient } from "../../grpc/board.client";
+import { type Empty } from "../../grpc/google/protobuf/empty";
 import { useAuth } from "../../utils/auth";
-import { BoardSchema } from "~/model/BoardTypes";
+import { BoardSchema } from "../../model/BoardTypes";
 
-async function sendCreateBoardRequest(title: string): Promise<Empty> {
+async function sendCreateBoardRequest(
+	title: string,
+	creatorId: string,
+	token: string,
+): Promise<Empty> {
 	const boardRequest: CreateBoardRequest = {
 		title: title,
+		creatorId: creatorId,
+		token: token,
 	};
 	const transport = new GrpcWebFetchTransport({
 		baseUrl: "http://localhost:8000",
@@ -47,7 +53,11 @@ export const CreateBoardForm = () => {
 	}
 
 	const onSubmit = async (values: z.infer<typeof BoardSchema>) => {
-		const response = await sendCreateBoardRequest(values.title);
+		const response = await sendCreateBoardRequest(
+			values.title,
+			auth.user,
+			auth.token,
+		);
 		console.log(response);
 		await navigate({ to: "/" });
 	};

@@ -124,6 +124,19 @@ export interface GetAllNotesResponse {
      */
     notes: NoteDto[];
 }
+/**
+ * @generated from protobuf message proto.board.GetBoardRequest
+ */
+export interface GetBoardRequest {
+    /**
+     * @generated from protobuf field: string board_id = 1;
+     */
+    boardId: string;
+    /**
+     * @generated from protobuf field: string token = 2;
+     */
+    token: string;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class CreateBoardRequest$Type extends MessageType<CreateBoardRequest> {
     constructor() {
@@ -580,6 +593,61 @@ class GetAllNotesResponse$Type extends MessageType<GetAllNotesResponse> {
  * @generated MessageType for protobuf message proto.board.GetAllNotesResponse
  */
 export const GetAllNotesResponse = new GetAllNotesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetBoardRequest$Type extends MessageType<GetBoardRequest> {
+    constructor() {
+        super("proto.board.GetBoardRequest", [
+            { no: 1, name: "board_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetBoardRequest>): GetBoardRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.boardId = "";
+        message.token = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetBoardRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetBoardRequest): GetBoardRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string board_id */ 1:
+                    message.boardId = reader.string();
+                    break;
+                case /* string token */ 2:
+                    message.token = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetBoardRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string board_id = 1; */
+        if (message.boardId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.boardId);
+        /* string token = 2; */
+        if (message.token !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.token);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message proto.board.GetBoardRequest
+ */
+export const GetBoardRequest = new GetBoardRequest$Type();
 /**
  * @generated ServiceType for protobuf service proto.board.BoardService
  */
@@ -587,5 +655,6 @@ export const BoardService = new ServiceType("proto.board.BoardService", [
     { name: "createBoard", options: {}, I: CreateBoardRequest, O: Empty },
     { name: "getAllBoards", options: {}, I: GetAllBoardsRequest, O: GetAllBoardsResponse },
     { name: "createNote", options: {}, I: CreateNoteRequest, O: Empty },
-    { name: "getAllNotes", options: {}, I: GetAllNotesRequest, O: GetAllNotesResponse }
+    { name: "getAllNotes", options: {}, I: GetAllNotesRequest, O: GetAllNotesResponse },
+    { name: "getBoard", options: {}, I: GetBoardRequest, O: BoardDto }
 ]);

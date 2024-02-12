@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class IdeaBoardDto {
-    @NotBlank
     @EqualsAndHashCode.Include
     private String id;
 
@@ -22,6 +21,5 @@ public class IdeaBoardDto {
     @NotBlank
     private String title;
 
-    @NotBlank
     private String chatId;
 }
