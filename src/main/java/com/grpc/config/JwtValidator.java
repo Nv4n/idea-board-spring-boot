@@ -1,9 +1,7 @@
 package com.grpc.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -33,19 +31,9 @@ public class JwtValidator {
 //
 //        signedJWT.sign(signer);
 //    }
-    private static Key getPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private static SecretKey getPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
         String privateKey = "YourBase64EncodedSecretKeyString";
-
-        try {
-            // Decode the Base64 encoded string to byte array
-            byte[] decodedKey = Base64.getDecoder().decode(privateKey.getBytes());
-            return Jwts.SIG.HS256.key().build();
-
-        } catch (IllegalArgumentException e) {
-            // Handle invalid Base64 encoding
-            e.printStackTrace();
-            return null;
-        }
+        return Keys.hmacShaKeyFor(Base64.getEncoder().encode(privateKey.getBytes()));
     }
 
     public static String signJwt(String uid) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -55,18 +43,16 @@ public class JwtValidator {
                 .claim("uid", uid)
                 .signWith(privateKey)
                 .issuedAt(Date.from(Instant.now()))
-                .expiration(Date.from(Instant.now().plus(1L, ChronoUnit.HOURS)))
+                .expiration(Date.from(Instant.now().plus(10L, ChronoUnit.SECONDS)))
                 .compact();
     }
 
     public static Boolean verifyJwt(String jws) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        Key privateKey = getPrivateKey();
-        if (!jws.isBlank()) {
-            return true;
-        }
+        SecretKey privateKey = getPrivateKey();
+
         try {
             Jws<Claims> something = Jwts.parser()
-                    .verifyWith((SecretKey) privateKey)
+                    .verifyWith(privateKey)
                     .build()
                     .parseSignedClaims(jws);
         } catch (JwtException ignored) {

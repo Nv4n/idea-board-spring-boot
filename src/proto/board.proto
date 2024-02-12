@@ -29,12 +29,14 @@ message NoteDto{
 string id = 1;
 string creator_id = 2;
 string content = 3;
+string board_id = 4;
 }
 
 message CreateNoteRequest{
     string content = 1;
     string  creator = 2;
     string token = 3;
+    string board_id =4;
 }
 
 message GetAllNotesRequest{

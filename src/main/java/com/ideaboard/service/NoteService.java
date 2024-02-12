@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface NoteService {
-    Optional<IdeaBoardDto> createNote(NoteDto noteDto);
+    Optional<NoteDto> createNote(NoteDto noteDto);
 
     List<NoteDto> findAllByBoardId(UUID boardId);
 }

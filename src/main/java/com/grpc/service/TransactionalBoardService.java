@@ -27,7 +27,7 @@ public class TransactionalBoardService {
     }
 
     @Transactional
-    public Optional<IdeaBoardDto> createTransactionalNote(NoteDto noteDto) {
+    public Optional<NoteDto> createTransactionalNote(NoteDto noteDto) {
         return noteService.createNote(noteDto);
     }
 }

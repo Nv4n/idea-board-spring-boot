@@ -46,7 +46,7 @@ public class IdeaBoardServiceImpl implements IdeaBoardService {
     }
 
     @Override
-    public Optional<IdeaBoardDto> getIdeaBoardById(String id) {
+    public Optional<IdeaBoardDto> getIdeaBoardDtoById(String id) {
         Optional<IdeaBoard> board = ideaBoardRepo.findById(UUID.fromString(id));
         if (board.isEmpty()) {
             return Optional.empty();
@@ -57,6 +57,11 @@ public class IdeaBoardServiceImpl implements IdeaBoardService {
         ideaBoardDto.setChatId(board.get().getChat().getId().toString());
         ideaBoardDto.setCreatorId(board.get().getCreator().getId().toString());
         return Optional.of(ideaBoardDto);
+    }
+
+    @Override
+    public Optional<IdeaBoard> getIdeaBoardById(UUID id) {
+        return ideaBoardRepo.findById(id);
     }
 
     @Transactional
@@ -79,7 +84,7 @@ public class IdeaBoardServiceImpl implements IdeaBoardService {
         Chat chat = chatService.createChat(createdEntity);
         createdEntity.setChat(chat);
         ideaBoardRepo.save(createdEntity);
-        
+
         IdeaBoardDto returIdeaBoardDto = new IdeaBoardDto();
         returIdeaBoardDto.setTitle(createdEntity.getTitle());
         returIdeaBoardDto.setChatId(chat.getId().toString());

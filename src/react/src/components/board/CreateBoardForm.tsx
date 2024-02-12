@@ -18,6 +18,7 @@ import { BoardServiceClient } from "../../grpc/board.client";
 import { type Empty } from "../../grpc/google/protobuf/empty";
 import { useAuth } from "../../utils/auth";
 import { BoardSchema } from "../../model/BoardTypes";
+import { useQueryClient } from "@tanstack/react-query";
 
 async function sendCreateBoardRequest(
 	title: string,
@@ -39,6 +40,7 @@ async function sendCreateBoardRequest(
 }
 
 export const CreateBoardForm = () => {
+	const client = useQueryClient();
 	const auth = useAuth();
 	const navigate = useNavigate();
 	const form = useForm<z.infer<typeof BoardSchema>>({
@@ -59,6 +61,7 @@ export const CreateBoardForm = () => {
 			auth.token,
 		);
 		console.log(response);
+		void client.invalidateQueries({ queryKey: ["boards"] });
 		await navigate({ to: "/" });
 	};
 

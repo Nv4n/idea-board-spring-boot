@@ -13,21 +13,25 @@ import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
-import { type CreateNoteRequest } from "~/grpc/board";
-import { BoardServiceClient } from "~/grpc/board.client";
-import { type Empty } from "~/grpc/google/protobuf/empty";
-import { NoteSchema } from "~/model/NoteTypes";
+import { type CreateNoteRequest } from "../../grpc/board";
+import { BoardServiceClient } from "../../grpc/board.client";
+import { type Empty } from "../../grpc/google/protobuf/empty";
+import { NoteSchema } from "../../model/NoteTypes";
 import { useAuth } from "../../utils/auth";
+import { useQueryClient } from "@tanstack/react-query";
+import { Textarea } from "@/components/ui/textarea";
 
 async function sendCreateNoteRequest(
 	note: string,
 	creator: string,
 	token: string,
+	board: string,
 ): Promise<Empty> {
 	const noteRequest: CreateNoteRequest = {
 		content: note,
 		creator: creator,
 		token: token,
+		boardId: board,
 	};
 	const transport = new GrpcWebFetchTransport({
 		baseUrl: "http://localhost:8000",
@@ -43,6 +47,7 @@ interface CreateNoteProps {
 }
 
 export const CreateNoteForm = ({ board }: CreateNoteProps) => {
+	const client = useQueryClient();
 	const auth = useAuth();
 	const navigate = useNavigate();
 	const form = useForm<z.infer<typeof NoteSchema>>({
@@ -61,8 +66,10 @@ export const CreateNoteForm = ({ board }: CreateNoteProps) => {
 			values.content,
 			auth.user,
 			auth.token,
+			board,
 		);
 		console.log(response);
+		void client.invalidateQueries({ queryKey: ["notes", board] });
 		await navigate({ to: "/board/$board", params: { board: board } });
 	};
 
@@ -79,7 +86,11 @@ export const CreateNoteForm = ({ board }: CreateNoteProps) => {
 						<FormItem>
 							<FormLabel>Note content</FormLabel>
 							<FormControl>
-								<Input placeholder="# H1 markdown" {...field} />
+								<Textarea
+									placeholder="# H1 markdown"
+									className="max-h-72"
+									{...field}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>

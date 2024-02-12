@@ -14,6 +14,8 @@ import java.util.Optional;
 public class ExceptionHandlerAdvice {
     @GRpcExceptionHandler
     public Status handle(AuthException exc, GRpcExceptionScope scope) {
+        System.out.println("inside advice");
+
         Optional<String> hint = scope.getHintAs(String.class);
         scope.getResponseHeaders().put(
                 Metadata.Key.of("AuthError", Metadata.ASCII_STRING_MARSHALLER),

@@ -38,11 +38,11 @@ function RootComponent() {
 			<div className="p-2">
 				<Outlet />
 			</div>
-			<TanStackRouterDevtools
+			{/* <TanStackRouterDevtools
 				position="bottom-left"
 				initialIsOpen={false}
-			/>
-			<ReactQueryDevtools position="bottom" initialIsOpen={false} />
+			/> */}
+			{/* <ReactQueryDevtools position="bottom" initialIsOpen={false} /> */}
 		</>
 	);
 }

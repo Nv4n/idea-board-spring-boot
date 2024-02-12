@@ -84,6 +84,10 @@ export interface NoteDto {
      * @generated from protobuf field: string content = 3;
      */
     content: string;
+    /**
+     * @generated from protobuf field: string board_id = 4;
+     */
+    boardId: string;
 }
 /**
  * @generated from protobuf message proto.board.CreateNoteRequest
@@ -101,6 +105,10 @@ export interface CreateNoteRequest {
      * @generated from protobuf field: string token = 3;
      */
     token: string;
+    /**
+     * @generated from protobuf field: string board_id = 4;
+     */
+    boardId: string;
 }
 /**
  * @generated from protobuf message proto.board.GetAllNotesRequest
@@ -371,7 +379,8 @@ class NoteDto$Type extends MessageType<NoteDto> {
         super("proto.board.NoteDto", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "creator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "board_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<NoteDto>): NoteDto {
@@ -379,6 +388,7 @@ class NoteDto$Type extends MessageType<NoteDto> {
         message.id = "";
         message.creatorId = "";
         message.content = "";
+        message.boardId = "";
         if (value !== undefined)
             reflectionMergePartial<NoteDto>(this, message, value);
         return message;
@@ -396,6 +406,9 @@ class NoteDto$Type extends MessageType<NoteDto> {
                     break;
                 case /* string content */ 3:
                     message.content = reader.string();
+                    break;
+                case /* string board_id */ 4:
+                    message.boardId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -418,6 +431,9 @@ class NoteDto$Type extends MessageType<NoteDto> {
         /* string content = 3; */
         if (message.content !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.content);
+        /* string board_id = 4; */
+        if (message.boardId !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.boardId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -434,7 +450,8 @@ class CreateNoteRequest$Type extends MessageType<CreateNoteRequest> {
         super("proto.board.CreateNoteRequest", [
             { no: 1, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "creator", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "board_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<CreateNoteRequest>): CreateNoteRequest {
@@ -442,6 +459,7 @@ class CreateNoteRequest$Type extends MessageType<CreateNoteRequest> {
         message.content = "";
         message.creator = "";
         message.token = "";
+        message.boardId = "";
         if (value !== undefined)
             reflectionMergePartial<CreateNoteRequest>(this, message, value);
         return message;
@@ -459,6 +477,9 @@ class CreateNoteRequest$Type extends MessageType<CreateNoteRequest> {
                     break;
                 case /* string token */ 3:
                     message.token = reader.string();
+                    break;
+                case /* string board_id */ 4:
+                    message.boardId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -481,6 +502,9 @@ class CreateNoteRequest$Type extends MessageType<CreateNoteRequest> {
         /* string token = 3; */
         if (message.token !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.token);
+        /* string board_id = 4; */
+        if (message.boardId !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.boardId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

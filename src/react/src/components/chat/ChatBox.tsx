@@ -1,16 +1,16 @@
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useState } from "react";
 import { type Message } from "../../grpc/chat";
 import { ChatMessage } from "./ChatMessage";
-import { useState } from "react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 interface ChatBoxProps {
 	msgs: Message[] | undefined;
 }
 
 export const ChatBox = ({ msgs }: ChatBoxProps) => {
-	const [messages, setMessages] = useState(msgs ? msgs : []);
+	const [messages, _setMessages] = useState(msgs ? msgs : []);
 
 	return (
-		<ScrollArea className="max-h-72 w-1/3 rounded-md border p-2">
+		<ScrollArea className="h-72 w-1/3 rounded-md border p-2">
 			{messages.map((msg) => (
 				<div key={msg.messageId}>
 					<>

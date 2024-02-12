@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as CreateboardImport } from './routes/createboard'
+import { Route as CreatenoteFromBoardImport } from './routes/createnote.$fromBoard'
 import { Route as BoardBoardImport } from './routes/board.$board'
 import { Route as BoardBoardNotesImport } from './routes/board.$board.notes'
 import { Route as BoardBoardChatChatImport } from './routes/board.$board.chat.$chat'
@@ -45,6 +46,11 @@ const AuthActionLazyRoute = AuthActionLazyImport.update({
   path: '/auth/$action',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/auth.$action.lazy').then((d) => d.Route))
+
+const CreatenoteFromBoardRoute = CreatenoteFromBoardImport.update({
+  path: '/createnote/$fromBoard',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const BoardBoardRoute = BoardBoardImport.update({
   path: '/board/$board',
@@ -81,6 +87,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BoardBoardImport
       parentRoute: typeof rootRoute
     }
+    '/createnote/$fromBoard': {
+      preLoaderRoute: typeof CreatenoteFromBoardImport
+      parentRoute: typeof rootRoute
+    }
     '/auth/$action': {
       preLoaderRoute: typeof AuthActionLazyImport
       parentRoute: typeof rootRoute
@@ -103,6 +113,7 @@ export const routeTree = rootRoute.addChildren([
   CreateboardRoute,
   AboutLazyRoute,
   BoardBoardRoute.addChildren([BoardBoardNotesRoute, BoardBoardChatChatRoute]),
+  CreatenoteFromBoardRoute,
   AuthActionLazyRoute,
 ])
 

@@ -5,6 +5,7 @@ import com.grpc.service.BoardServiceImpl;
 import com.grpc.service.ChatServiceImpl;
 import com.ideaboard.service.IdeaBoardService;
 import com.ideaboard.service.MessageService;
+import com.ideaboard.service.NoteService;
 import com.ideaboard.service.UserService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -17,12 +18,14 @@ public class IdeaBoardSpringBootApplication {
     private static UserService userService;
     private static IdeaBoardService ideaBoardService;
     private static MessageService messageService;
+    private static NoteService noteService;
 
     @Autowired
-    public IdeaBoardSpringBootApplication(UserService userService, IdeaBoardService ideaBoardService, MessageService messageService) {
+    public IdeaBoardSpringBootApplication(NoteService noteService, UserService userService, IdeaBoardService ideaBoardService, MessageService messageService) {
         IdeaBoardSpringBootApplication.userService = userService;
         IdeaBoardSpringBootApplication.ideaBoardService = ideaBoardService;
         IdeaBoardSpringBootApplication.messageService = messageService;
+        IdeaBoardSpringBootApplication.noteService = noteService;
     }
 
     public static void main(String[] args) throws Exception {
@@ -33,7 +36,7 @@ public class IdeaBoardSpringBootApplication {
         Server server = ServerBuilder.forPort(PORT)
                 .addService(new ChatServiceImpl(messageService))
                 .addService(new AuthServiceImpl(userService))
-                .addService(new BoardServiceImpl(ideaBoardService))
+                .addService(new BoardServiceImpl(ideaBoardService, noteService))
                 .build();
 
         // Start the server

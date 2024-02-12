@@ -15,11 +15,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class NoteDto {
-    @NotNull
     private UUID id;
 
     @NotNull
     private UUID creatorId;
+
+    private UUID boardId;
 
     @NotBlank
     @Size(max = 256)

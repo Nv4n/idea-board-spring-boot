@@ -11,17 +11,12 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-	createFileRoute,
-	useNavigate
-} from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ChatBox } from "../components/chat/ChatBox";
 import { LoadinSkeleton } from "../components/default/LoadingSkeleton";
-import { type ChatResponse, type Message } from "../grpc/chat";
-import { Timestamp } from "../grpc/google/protobuf/timestamp";
 import { useSocketIo } from "../hooks/useSocketIo";
 import {
 	ChatMessageSchema,
@@ -91,23 +86,27 @@ function Chat({
 
 		socket.on(
 			"get_message",
-			({ type: _type, messageDto: msgDto }: ChatSocketResponse) => {
-				const currentData = client.getQueryData([
-					"chat",
-					chatRoom,
-				]) as ChatResponse;
+			({ type: type, messageDto: msgDto }: ChatSocketResponse) => {
+				console.log(`Type ${type}`);
+				console.log(msgDto);
 
-				const newEnity: Message = {
-					messageId: msgDto.id,
-					senderId: msgDto.senderId,
-					content: msgDto.content,
-					createdAt: Timestamp.fromDate(new Date(msgDto.createdAt)),
-				};
-				const newData: ChatResponse = {
-					messages: [...currentData.messages, newEnity],
-				};
+				// const currentData = client.getQueryData([
+				// 	"chat",
+				// 	chatRoom,
+				// ]) as ChatResponse;
+
+				// const newEnity: Message = {
+				// 	messageId: msgDto.id,
+				// 	senderId: msgDto.senderId,
+				// 	content: msgDto.content,
+				// 	createdAt: Timestamp.fromDate(new Date(msgDto.createdAt)),
+				// };
+				// const newData: ChatResponse = {
+				// 	messages: [...currentData.messages, newEnity],
+				// };
 				form.setValue("msg", "");
-				client.setQueryData(["chat", chatRoom], newData);
+				// client.setQueryData(["chat", chatRoom], newData);
+				void client.invalidateQueries({ queryKey: ["chat", chatRoom] });
 			},
 		);
 
