@@ -24,19 +24,120 @@ export interface CreateBoardRequest {
      * @generated from protobuf field: string creator_id = 2;
      */
     creatorId: string;
+    /**
+     * @generated from protobuf field: string token = 3;
+     */
+    token: string;
+}
+/**
+ * @generated from protobuf message proto.board.BoardDto
+ */
+export interface BoardDto {
+    /**
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: string creator_id = 2;
+     */
+    creatorId: string;
+    /**
+     * @generated from protobuf field: string title = 3;
+     */
+    title: string;
+    /**
+     * @generated from protobuf field: string chat_id = 4;
+     */
+    chatId: string;
+}
+/**
+ * @generated from protobuf message proto.board.GetAllBoardsRequest
+ */
+export interface GetAllBoardsRequest {
+    /**
+     * @generated from protobuf field: string token = 1;
+     */
+    token: string;
+}
+/**
+ * @generated from protobuf message proto.board.GetAllBoardsResponse
+ */
+export interface GetAllBoardsResponse {
+    /**
+     * @generated from protobuf field: repeated proto.board.BoardDto boards = 1;
+     */
+    boards: BoardDto[];
+}
+/**
+ * @generated from protobuf message proto.board.NoteDto
+ */
+export interface NoteDto {
+    /**
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: string creator_id = 2;
+     */
+    creatorId: string;
+    /**
+     * @generated from protobuf field: string content = 3;
+     */
+    content: string;
+}
+/**
+ * @generated from protobuf message proto.board.CreateNoteRequest
+ */
+export interface CreateNoteRequest {
+    /**
+     * @generated from protobuf field: string content = 1;
+     */
+    content: string;
+    /**
+     * @generated from protobuf field: string creator = 2;
+     */
+    creator: string;
+    /**
+     * @generated from protobuf field: string token = 3;
+     */
+    token: string;
+}
+/**
+ * @generated from protobuf message proto.board.GetAllNotesRequest
+ */
+export interface GetAllNotesRequest {
+    /**
+     * @generated from protobuf field: string board_id = 1;
+     */
+    boardId: string;
+    /**
+     * @generated from protobuf field: string token = 2;
+     */
+    token: string;
+}
+/**
+ * @generated from protobuf message proto.board.GetAllNotesResponse
+ */
+export interface GetAllNotesResponse {
+    /**
+     * @generated from protobuf field: repeated proto.board.NoteDto notes = 1;
+     */
+    notes: NoteDto[];
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class CreateBoardRequest$Type extends MessageType<CreateBoardRequest> {
     constructor() {
         super("proto.board.CreateBoardRequest", [
             { no: 1, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "creator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 2, name: "creator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<CreateBoardRequest>): CreateBoardRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.title = "";
         message.creatorId = "";
+        message.token = "";
         if (value !== undefined)
             reflectionMergePartial<CreateBoardRequest>(this, message, value);
         return message;
@@ -51,6 +152,9 @@ class CreateBoardRequest$Type extends MessageType<CreateBoardRequest> {
                     break;
                 case /* string creator_id */ 2:
                     message.creatorId = reader.string();
+                    break;
+                case /* string token */ 3:
+                    message.token = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -70,6 +174,9 @@ class CreateBoardRequest$Type extends MessageType<CreateBoardRequest> {
         /* string creator_id = 2; */
         if (message.creatorId !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.creatorId);
+        /* string token = 3; */
+        if (message.token !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.token);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -80,9 +187,405 @@ class CreateBoardRequest$Type extends MessageType<CreateBoardRequest> {
  * @generated MessageType for protobuf message proto.board.CreateBoardRequest
  */
 export const CreateBoardRequest = new CreateBoardRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class BoardDto$Type extends MessageType<BoardDto> {
+    constructor() {
+        super("proto.board.BoardDto", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "creator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "chat_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<BoardDto>): BoardDto {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        message.creatorId = "";
+        message.title = "";
+        message.chatId = "";
+        if (value !== undefined)
+            reflectionMergePartial<BoardDto>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: BoardDto): BoardDto {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string id */ 1:
+                    message.id = reader.string();
+                    break;
+                case /* string creator_id */ 2:
+                    message.creatorId = reader.string();
+                    break;
+                case /* string title */ 3:
+                    message.title = reader.string();
+                    break;
+                case /* string chat_id */ 4:
+                    message.chatId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: BoardDto, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* string creator_id = 2; */
+        if (message.creatorId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.creatorId);
+        /* string title = 3; */
+        if (message.title !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.title);
+        /* string chat_id = 4; */
+        if (message.chatId !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.chatId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message proto.board.BoardDto
+ */
+export const BoardDto = new BoardDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetAllBoardsRequest$Type extends MessageType<GetAllBoardsRequest> {
+    constructor() {
+        super("proto.board.GetAllBoardsRequest", [
+            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetAllBoardsRequest>): GetAllBoardsRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.token = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetAllBoardsRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAllBoardsRequest): GetAllBoardsRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string token */ 1:
+                    message.token = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetAllBoardsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string token = 1; */
+        if (message.token !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.token);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message proto.board.GetAllBoardsRequest
+ */
+export const GetAllBoardsRequest = new GetAllBoardsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetAllBoardsResponse$Type extends MessageType<GetAllBoardsResponse> {
+    constructor() {
+        super("proto.board.GetAllBoardsResponse", [
+            { no: 1, name: "boards", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => BoardDto }
+        ]);
+    }
+    create(value?: PartialMessage<GetAllBoardsResponse>): GetAllBoardsResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.boards = [];
+        if (value !== undefined)
+            reflectionMergePartial<GetAllBoardsResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAllBoardsResponse): GetAllBoardsResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated proto.board.BoardDto boards */ 1:
+                    message.boards.push(BoardDto.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetAllBoardsResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated proto.board.BoardDto boards = 1; */
+        for (let i = 0; i < message.boards.length; i++)
+            BoardDto.internalBinaryWrite(message.boards[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message proto.board.GetAllBoardsResponse
+ */
+export const GetAllBoardsResponse = new GetAllBoardsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class NoteDto$Type extends MessageType<NoteDto> {
+    constructor() {
+        super("proto.board.NoteDto", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "creator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<NoteDto>): NoteDto {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        message.creatorId = "";
+        message.content = "";
+        if (value !== undefined)
+            reflectionMergePartial<NoteDto>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: NoteDto): NoteDto {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string id */ 1:
+                    message.id = reader.string();
+                    break;
+                case /* string creator_id */ 2:
+                    message.creatorId = reader.string();
+                    break;
+                case /* string content */ 3:
+                    message.content = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: NoteDto, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* string creator_id = 2; */
+        if (message.creatorId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.creatorId);
+        /* string content = 3; */
+        if (message.content !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.content);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message proto.board.NoteDto
+ */
+export const NoteDto = new NoteDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class CreateNoteRequest$Type extends MessageType<CreateNoteRequest> {
+    constructor() {
+        super("proto.board.CreateNoteRequest", [
+            { no: 1, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "creator", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<CreateNoteRequest>): CreateNoteRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.content = "";
+        message.creator = "";
+        message.token = "";
+        if (value !== undefined)
+            reflectionMergePartial<CreateNoteRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CreateNoteRequest): CreateNoteRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string content */ 1:
+                    message.content = reader.string();
+                    break;
+                case /* string creator */ 2:
+                    message.creator = reader.string();
+                    break;
+                case /* string token */ 3:
+                    message.token = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: CreateNoteRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string content = 1; */
+        if (message.content !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.content);
+        /* string creator = 2; */
+        if (message.creator !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.creator);
+        /* string token = 3; */
+        if (message.token !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.token);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message proto.board.CreateNoteRequest
+ */
+export const CreateNoteRequest = new CreateNoteRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetAllNotesRequest$Type extends MessageType<GetAllNotesRequest> {
+    constructor() {
+        super("proto.board.GetAllNotesRequest", [
+            { no: 1, name: "board_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetAllNotesRequest>): GetAllNotesRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.boardId = "";
+        message.token = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetAllNotesRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAllNotesRequest): GetAllNotesRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string board_id */ 1:
+                    message.boardId = reader.string();
+                    break;
+                case /* string token */ 2:
+                    message.token = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetAllNotesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string board_id = 1; */
+        if (message.boardId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.boardId);
+        /* string token = 2; */
+        if (message.token !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.token);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message proto.board.GetAllNotesRequest
+ */
+export const GetAllNotesRequest = new GetAllNotesRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetAllNotesResponse$Type extends MessageType<GetAllNotesResponse> {
+    constructor() {
+        super("proto.board.GetAllNotesResponse", [
+            { no: 1, name: "notes", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => NoteDto }
+        ]);
+    }
+    create(value?: PartialMessage<GetAllNotesResponse>): GetAllNotesResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.notes = [];
+        if (value !== undefined)
+            reflectionMergePartial<GetAllNotesResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAllNotesResponse): GetAllNotesResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated proto.board.NoteDto notes */ 1:
+                    message.notes.push(NoteDto.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetAllNotesResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated proto.board.NoteDto notes = 1; */
+        for (let i = 0; i < message.notes.length; i++)
+            NoteDto.internalBinaryWrite(message.notes[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message proto.board.GetAllNotesResponse
+ */
+export const GetAllNotesResponse = new GetAllNotesResponse$Type();
 /**
  * @generated ServiceType for protobuf service proto.board.BoardService
  */
 export const BoardService = new ServiceType("proto.board.BoardService", [
-    { name: "createBoard", options: {}, I: CreateBoardRequest, O: Empty }
+    { name: "createBoard", options: {}, I: CreateBoardRequest, O: Empty },
+    { name: "getAllBoards", options: {}, I: GetAllBoardsRequest, O: GetAllBoardsResponse },
+    { name: "createNote", options: {}, I: CreateNoteRequest, O: Empty },
+    { name: "getAllNotes", options: {}, I: GetAllNotesRequest, O: GetAllNotesResponse }
 ]);

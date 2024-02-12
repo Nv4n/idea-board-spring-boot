@@ -4,6 +4,11 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { BoardService } from "./board";
+import type { GetAllNotesResponse } from "./board";
+import type { GetAllNotesRequest } from "./board";
+import type { CreateNoteRequest } from "./board";
+import type { GetAllBoardsResponse } from "./board";
+import type { GetAllBoardsRequest } from "./board";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { Empty } from "./google/protobuf/empty";
 import type { CreateBoardRequest } from "./board";
@@ -17,6 +22,18 @@ export interface IBoardServiceClient {
      * @generated from protobuf rpc: createBoard(proto.board.CreateBoardRequest) returns (google.protobuf.Empty);
      */
     createBoard(input: CreateBoardRequest, options?: RpcOptions): UnaryCall<CreateBoardRequest, Empty>;
+    /**
+     * @generated from protobuf rpc: getAllBoards(proto.board.GetAllBoardsRequest) returns (proto.board.GetAllBoardsResponse);
+     */
+    getAllBoards(input: GetAllBoardsRequest, options?: RpcOptions): UnaryCall<GetAllBoardsRequest, GetAllBoardsResponse>;
+    /**
+     * @generated from protobuf rpc: createNote(proto.board.CreateNoteRequest) returns (google.protobuf.Empty);
+     */
+    createNote(input: CreateNoteRequest, options?: RpcOptions): UnaryCall<CreateNoteRequest, Empty>;
+    /**
+     * @generated from protobuf rpc: getAllNotes(proto.board.GetAllNotesRequest) returns (proto.board.GetAllNotesResponse);
+     */
+    getAllNotes(input: GetAllNotesRequest, options?: RpcOptions): UnaryCall<GetAllNotesRequest, GetAllNotesResponse>;
 }
 /**
  * @generated from protobuf service proto.board.BoardService
@@ -33,5 +50,26 @@ export class BoardServiceClient implements IBoardServiceClient, ServiceInfo {
     createBoard(input: CreateBoardRequest, options?: RpcOptions): UnaryCall<CreateBoardRequest, Empty> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
         return stackIntercept<CreateBoardRequest, Empty>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: getAllBoards(proto.board.GetAllBoardsRequest) returns (proto.board.GetAllBoardsResponse);
+     */
+    getAllBoards(input: GetAllBoardsRequest, options?: RpcOptions): UnaryCall<GetAllBoardsRequest, GetAllBoardsResponse> {
+        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetAllBoardsRequest, GetAllBoardsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: createNote(proto.board.CreateNoteRequest) returns (google.protobuf.Empty);
+     */
+    createNote(input: CreateNoteRequest, options?: RpcOptions): UnaryCall<CreateNoteRequest, Empty> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<CreateNoteRequest, Empty>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: getAllNotes(proto.board.GetAllNotesRequest) returns (proto.board.GetAllNotesResponse);
+     */
+    getAllNotes(input: GetAllNotesRequest, options?: RpcOptions): UnaryCall<GetAllNotesRequest, GetAllNotesResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetAllNotesRequest, GetAllNotesResponse>("unary", this._transport, method, opt, input);
     }
 }

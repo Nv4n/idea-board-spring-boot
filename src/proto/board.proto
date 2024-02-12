@@ -7,11 +7,48 @@ option java_multiple_files = true;
 message CreateBoardRequest{
     string title = 1;
     string creator_id = 2;
+    string token = 3;
 }
-message GetAllBoards{}
 
+message BoardDto{
+    string id = 1;
+    string creator_id = 2;
+    string title = 3;
+    string chat_id = 4;
+}
+
+message GetAllBoardsRequest{
+    string token = 1;
+}
+
+message GetAllBoardsResponse{
+    repeated BoardDto boards = 1;
+}
+
+message NoteDto{
+string id = 1;
+string creator_id = 2;
+string content = 3;
+}
+
+message CreateNoteRequest{
+    string content = 1;
+    string  creator = 2;
+    string token = 3;
+}
+
+message GetAllNotesRequest{
+    string board_id = 1;
+    string token = 2;
+}
+
+message GetAllNotesResponse{
+    repeated NoteDto notes = 1;
+}
 service BoardService{
     rpc createBoard (CreateBoardRequest) returns (google.protobuf.Empty);
-    rpc getAllBoards ()
+    rpc getAllBoards (GetAllBoardsRequest) returns(GetAllBoardsResponse);
+    rpc createNote (CreateNoteRequest) returns (google.protobuf.Empty);
+    rpc getAllNotes (GetAllNotesRequest) returns (GetAllNotesResponse);
 }
 
